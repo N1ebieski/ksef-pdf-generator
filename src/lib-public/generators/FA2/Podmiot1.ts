@@ -1,10 +1,10 @@
 import { Content } from 'pdfmake/interfaces';
-import { createHeader, createLabelText, formatText, getValue, hasValue } from '../../../shared/PDF-functions';
+import { createHeader, createLabelText, formatText, getValue, hasValue } from '../../../shared/PDF-functions.js';
 import { Podmiot1 } from '../../types/fa2.types';
-import { generateAdres } from './Adres';
-import { generateDaneIdentyfikacyjneTPodmiot1Dto } from './PodmiotDaneIdentyfikacyjneTPodmiot1Dto';
-import { generateDaneKontaktowe } from './PodmiotDaneKontaktowe';
-import FormatTyp from '../../../shared/enums/common.enum';
+import { generateAdres } from './Adres.js';
+import { generateDaneIdentyfikacyjneTPodmiot1Dto } from './PodmiotDaneIdentyfikacyjneTPodmiot1Dto.js';
+import { generateDaneKontaktowe } from './PodmiotDaneKontaktowe.js';
+import FormatTyp from '../../../shared/enums/common.enum.js';
 import { TAXPAYER_STATUS } from '../../../shared/consts/const';
 
 export function generatePodmiot1(podmiot1: Podmiot1): Content[] {

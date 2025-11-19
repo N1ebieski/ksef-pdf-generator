@@ -6,11 +6,11 @@ import {
   getValue,
   hasValue,
   makeBreakable,
-} from '../../../shared/PDF-functions';
-import FormatTyp from '../../../shared/enums/common.enum';
+} from '../../../shared/PDF-functions.js';
+import FormatTyp from '../../../shared/enums/common.enum.js';
 import { FP } from '../../types/fa1.types';
-import { getTypRachunkowWlasnych } from '../../../shared/generators/common/functions';
-import { DEFAULT_TABLE_LAYOUT } from '../../../shared/consts/const';
+import { getTypRachunkowWlasnych } from '../../../shared/generators/common/functions.js';
+import { DEFAULT_TABLE_LAYOUT } from '../../../shared/consts/const.js';
 
 export const generujRachunekBankowy: (accounts?: Record<string, FP>[], title?: string) => Content[] = (
   accounts?: Record<string, FP>[],
