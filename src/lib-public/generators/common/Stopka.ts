@@ -1,4 +1,5 @@
 import { Content, ContentQr, ContentStack } from 'pdfmake/interfaces';
+import FormatTyp from '../../../shared/enums/common.enum.js';
 import {
   createHeader,
   createLabelText,
@@ -12,14 +13,13 @@ import {
   getTable,
   verticalSpacing,
 } from '../../../shared/PDF-functions.js';
-import { HeaderDefine } from '../../../shared/types/pdf-types.js';
 import { FormContentState } from '../../../shared/types/additional-data.types';
+import { HeaderDefine } from '../../../shared/types/pdf-types.js';
+import { AdditionalDataTypes } from '../../types/common.types';
+import { Informacje, Rejestry } from '../../types/fa1.types';
 import { FP, Naglowek, Stopka } from '../../types/fa2.types';
 import { Zalacznik } from '../../types/fa3.types';
 import { generateZalaczniki } from './Zalaczniki.js';
-import FormatTyp from '../../../shared/enums/common.enum.js';
-import { Informacje, Rejestry } from '../../types/fa1.types';
-import { AdditionalDataTypes } from '../../types/common.types';
 
 export function generateStopka(
   additionalData?: AdditionalDataTypes,
@@ -119,7 +119,7 @@ function generateInformacje(stopka?: Stopka): Content[] {
 function generateQRCodeData(additionalData?: AdditionalDataTypes): Content[] {
   const result: Content = [];
 
-  if (additionalData?.qrCode && additionalData.nrKSeF) {
+  if (additionalData?.qrCode) {
     const qrCode: ContentQr | undefined = generateQRCode(additionalData.qrCode);
 
     result.push(createHeader('Sprawdź, czy Twoja faktura znajduje się w KSeF!'));
@@ -131,15 +131,15 @@ function generateQRCodeData(additionalData?: AdditionalDataTypes): Content[] {
               qrCode,
 
               {
-                stack: [formatText(additionalData.nrKSeF, FormatTyp.Default)],
+                stack: [formatText(additionalData.nrKSeF ?? 'OFFLINE', FormatTyp.Default)],
                 width: 'auto',
                 alignment: 'center',
-                marginLeft: 10,
-                marginRight: 10,
+                marginLeft: 0,
+                marginRight: 65,
                 marginTop: 10,
               } as ContentStack,
             ],
-            width: 150,
+            width: 200,
           } as ContentStack,
           {
             stack: [
@@ -150,6 +150,51 @@ function generateQRCodeData(additionalData?: AdditionalDataTypes): Content[] {
               { stack: [formatText(additionalData.qrCode, FormatTyp.Link)], marginTop: 5 },
             ],
             link: additionalData.qrCode,
+            margin: [10, (qrCode.fit ?? 120) / 2 - 30, 0, 0],
+            width: 'auto',
+          } as ContentStack,
+        ],
+      });
+    }
+  }
+  if (additionalData?.qrCode2 && !additionalData.nrKSeF) {
+    const qrCode: ContentQr | undefined = generateQRCode(additionalData.qrCode2);
+
+    result.push(createHeader('Zweryfikuj wystawcę faktury!'));
+    if (qrCode) {
+      qrCode.fit = 200;
+
+      result.push({
+        columns: [
+          {
+            stack: [
+              qrCode,
+
+              {
+                stack: [formatText('CERTYFIKAT', FormatTyp.Default)],
+                width: 'auto',
+                alignment: 'center',
+                marginLeft: 0,
+                // ECDSA certificate QR Code fit almost full width so we need to increase margin
+                marginRight: additionalData.qrCode2.length > 300 ? 28 : 18,
+                marginTop: 10,
+              } as ContentStack,
+            ],
+            width: 200,
+          } as ContentStack,
+          {
+            stack: [
+              formatText(
+                'Nie możesz zeskanować kodu z obrazka? Kliknij w link weryfikacyjny i przejdź do weryfikacji wystawcy!',
+                FormatTyp.Value
+              ),
+              {
+                stack: [formatText(additionalData.qrCode2.substring(0, 150) + '...', FormatTyp.Link)],
+                marginTop: 5,
+              },
+            ],
+            link: additionalData.qrCode2,
+            noWrap: false,
             margin: [10, (qrCode.fit ?? 120) / 2 - 30, 0, 0],
             width: 'auto',
           } as ContentStack,

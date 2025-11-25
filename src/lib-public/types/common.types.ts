@@ -1,5 +1,5 @@
-import { FP as FP3 } from './fa3.types';
 import { FP as FP2 } from './fa2.types';
+import { FP as FP3 } from './fa3.types';
 
 interface FA2FakturaZaliczkowaDataSpozaKSeF {
   NrKSeFZN: FP2;
@@ -23,7 +23,8 @@ export type FA3FakturaZaliczkowaData = FA3FakturaZaliczkowaDataSpozaKSeF | FA3Fa
 export type FA2FakturaZaliczkowaData = FA2FakturaZaliczkowaDataSpozaKSeF | FA2FakturaZaliczkowaDataZKSeF;
 
 export interface AdditionalDataTypes {
-  nrKSeF: string;
+  nrKSeF?: string;
   qrCode?: string;
+  qrCode2?: string;
   isMobile?: boolean;
 }

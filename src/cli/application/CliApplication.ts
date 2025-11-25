@@ -1,12 +1,12 @@
 import { Command } from 'commander';
-import type { ILogger } from '../interfaces/ILogger.js';
-import type { IFileService } from '../interfaces/IFileService.js';
-import type { IEnvironmentInitializer } from '../interfaces/IEnvironmentInitializer.js';
-import type { IPdfGenerator } from '../interfaces/IPdfGenerator.js';
-import { ConsoleLogger, FileService, PdfGeneratorModuleLoader } from '../services/index.js';
+import { GenerateInvoiceCommand, GeneratePdfCommand } from '../commands/index.js';
 import { BrowserEnvironmentInitializer } from '../environment/index.js';
 import { InvoicePdfGenerator, UpoPdfGenerator } from '../generators/index.js';
-import { GenerateInvoiceCommand, GeneratePdfCommand } from '../commands/index.js';
+import type { IEnvironmentInitializer } from '../interfaces/IEnvironmentInitializer.js';
+import type { IFileService } from '../interfaces/IFileService.js';
+import type { ILogger } from '../interfaces/ILogger.js';
+import type { IPdfGenerator } from '../interfaces/IPdfGenerator.js';
+import { ConsoleLogger, FileService, PdfGeneratorModuleLoader } from '../services/index.js';
 
 export class CliApplication {
   private logger: ILogger;
@@ -25,8 +25,9 @@ export class CliApplication {
 
   async initialize(): Promise<void> {
     this.environmentInitializer.initialize();
-    
+
     const generators = await this.moduleLoader.loadGenerators();
+
     this.invoiceGenerator = new InvoicePdfGenerator(generators.generateInvoice);
     this.upoGenerator = new UpoPdfGenerator(generators.generatePDFUPO);
   }
@@ -44,14 +45,19 @@ export class CliApplication {
       .argument('<output>', 'Ścieżka do wyjściowego pliku PDF')
       .option('--nr-ksef <numer>', 'Numer KSeF faktury')
       .option('--qr-code <url>', 'URL do kodu QR faktury')
+      .option('--qr-code2 <url>', 'URL do kodu QR certyfikatu')
       .action(async (input: string, output: string, options: any) => {
         try {
           const additionalData: any = {};
+
           if (options.nrKsef) {
             additionalData.nrKSeF = options.nrKsef;
           }
           if (options.qrCode) {
             additionalData.qrCode = options.qrCode;
+          }
+          if (options.qrCode2) {
+            additionalData.qrCode2 = options.qrCode2;
           }
 
           if (!this.invoiceGenerator) {
