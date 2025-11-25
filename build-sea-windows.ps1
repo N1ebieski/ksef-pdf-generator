@@ -34,7 +34,7 @@ Write-Host "🔓 Etap 4: Usuwanie sygnatury..." -ForegroundColor Yellow
 # Usuń podpis cyfrowy, aby uniknąć ostrzeżenia "signature corrupted"
 # Wymaga signtool.exe z Windows SDK
 try {
-    $signtool = "signtool.exe"
+    $signtool = ".\signtool.exe"
     & $signtool remove /s ksef-pdf.exe 2>$null
     if ($LASTEXITCODE -eq 0) {
         Write-Host "✅ Podpis usunięty" -ForegroundColor Green
@@ -43,6 +43,15 @@ try {
     }
 } catch {
     Write-Host "ℹ️  signtool niedostępny - postject wyświetli ostrzeżenie (nie wpływa na działanie)" -ForegroundColor Gray
+}
+Write-Host ""
+
+# Krok 4a: Ustawienie metadanych (Assembly Info)
+Write-Host "📝 Etap 4a: Ustawianie metadanych pliku (wersja, firma)..." -ForegroundColor Yellow
+node set-exe-resources.mjs ksef-pdf.exe
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "❌ Błąd podczas ustawiania metadanych!" -ForegroundColor Red
+    exit 1
 }
 Write-Host ""
 
