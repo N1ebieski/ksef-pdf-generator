@@ -1,3 +1,4 @@
+import { GenerateConfirmationCommand } from 'cli/commands/GenerateConfirmationCommand.js';
 import { Command } from 'commander';
 import { GenerateInvoiceCommand, GeneratePdfCommand } from '../commands/index.js';
 import { BrowserEnvironmentInitializer } from '../environment/index.js';
@@ -35,6 +36,7 @@ export class CliApplication {
   setupCommands(program: Command): void {
     this.setupInvoiceCommand(program);
     this.setupUpoCommand(program);
+    this.setupConfirmationCommand(program);
   }
 
   private setupInvoiceCommand(program: Command): void {
@@ -99,6 +101,45 @@ export class CliApplication {
             input,
             output,
             'UPO'
+          );
+
+          await command.execute();
+        } catch (error) {
+          process.exit(1);
+        }
+      });
+  }
+
+  private setupConfirmationCommand(program: Command): void {
+    program
+      .command('confirmation')
+      .description('Generuj potwierdzenie transakcji PDF dla faktury z pliku XML')
+      .argument('<input>', 'Ścieżka do pliku XML faktury (FA(1), FA(2) lub FA(3))')
+      .argument('<output>', 'Ścieżka do wyjściowego pliku PDF')
+      .option('--qr-code <url>', 'URL do kodu QR faktury')
+      .option('--qr-code2 <url>', 'URL do kodu QR certyfikatu')
+      .action(async (input: string, output: string, options: any) => {
+        try {
+          const additionalData: any = {};
+
+          if (options.qrCode) {
+            additionalData.qrCode = options.qrCode;
+          }
+          if (options.qrCode2) {
+            additionalData.qrCode2 = options.qrCode2;
+          }
+
+          if (!this.invoiceGenerator) {
+            throw new Error('Generator potwierdzeń transakcji nie został zainicjalizowany');
+          }
+
+          const command = new GenerateConfirmationCommand(
+            this.invoiceGenerator,
+            this.fileService,
+            this.logger,
+            input,
+            output,
+            additionalData
           );
 
           await command.execute();
