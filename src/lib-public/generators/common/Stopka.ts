@@ -116,7 +116,7 @@ function generateInformacje(stopka?: Stopka): Content[] {
   return result;
 }
 
-function generateQRCodeData(additionalData?: AdditionalDataTypes): Content[] {
+export function generateQRCodeData(additionalData?: AdditionalDataTypes, captions = true): Content[] {
   const result: Content = [];
 
   if (additionalData?.qrCode) {
@@ -130,14 +130,18 @@ function generateQRCodeData(additionalData?: AdditionalDataTypes): Content[] {
             stack: [
               qrCode,
 
-              {
-                stack: [formatText(additionalData.nrKSeF ?? 'OFFLINE', FormatTyp.Default)],
-                width: 'auto',
-                alignment: 'center',
-                marginLeft: 0,
-                marginRight: 65,
-                marginTop: 10,
-              } as ContentStack,
+              ...(captions
+                ? [
+                    {
+                      stack: [formatText(additionalData.nrKSeF ?? 'OFFLINE', FormatTyp.Default)],
+                      width: 'auto',
+                      alignment: 'center',
+                      marginLeft: 0,
+                      marginRight: 65,
+                      marginTop: 10,
+                    } as ContentStack,
+                  ]
+                : []),
             ],
             width: 200,
           } as ContentStack,
@@ -170,15 +174,19 @@ function generateQRCodeData(additionalData?: AdditionalDataTypes): Content[] {
             stack: [
               qrCode,
 
-              {
-                stack: [formatText('CERTYFIKAT', FormatTyp.Default)],
-                width: 'auto',
-                alignment: 'center',
-                marginLeft: 0,
-                // ECDSA certificate QR Code fit almost full width so we need to increase margin
-                marginRight: additionalData.qrCode2.length > 300 ? 28 : 18,
-                marginTop: 10,
-              } as ContentStack,
+              ...(captions
+                ? [
+                    {
+                      stack: [formatText('CERTYFIKAT', FormatTyp.Default)],
+                      width: 'auto',
+                      alignment: 'center',
+                      marginLeft: 0,
+                      // ECDSA certificate QR Code fit almost full width so we need to increase margin
+                      marginRight: additionalData.qrCode2.length > 300 ? 28 : 18,
+                      marginTop: 10,
+                    } as ContentStack,
+                  ]
+                : []),
             ],
             width: 200,
           } as ContentStack,

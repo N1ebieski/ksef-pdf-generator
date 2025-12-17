@@ -1,8 +1,11 @@
-import { GenerateConfirmationCommand } from 'cli/commands/GenerateConfirmationCommand.js';
 import { Command } from 'commander';
-import { GenerateInvoiceCommand, GeneratePdfCommand } from '../commands/index.js';
+import {
+  GenerateConfirmationCommand,
+  GenerateInvoiceCommand,
+  GeneratePdfCommand,
+} from '../commands/index.js';
 import { BrowserEnvironmentInitializer } from '../environment/index.js';
-import { InvoicePdfGenerator, UpoPdfGenerator } from '../generators/index.js';
+import { ConfirmationPdfGenerator, InvoicePdfGenerator, UpoPdfGenerator } from '../generators/index.js';
 import type { IEnvironmentInitializer } from '../interfaces/IEnvironmentInitializer.js';
 import type { IFileService } from '../interfaces/IFileService.js';
 import type { ILogger } from '../interfaces/ILogger.js';
@@ -16,6 +19,7 @@ export class CliApplication {
   private moduleLoader: PdfGeneratorModuleLoader;
   private invoiceGenerator?: IPdfGenerator;
   private upoGenerator?: IPdfGenerator;
+  private confirmationGenerator?: IPdfGenerator;
 
   constructor() {
     this.logger = new ConsoleLogger();
@@ -31,6 +35,7 @@ export class CliApplication {
 
     this.invoiceGenerator = new InvoicePdfGenerator(generators.generateInvoice);
     this.upoGenerator = new UpoPdfGenerator(generators.generatePDFUPO);
+    this.confirmationGenerator = new ConfirmationPdfGenerator();
   }
 
   setupCommands(program: Command): void {
@@ -129,12 +134,12 @@ export class CliApplication {
             additionalData.qrCode2 = options.qrCode2;
           }
 
-          if (!this.invoiceGenerator) {
+          if (!this.confirmationGenerator) {
             throw new Error('Generator potwierdzeń transakcji nie został zainicjalizowany');
           }
 
           const command = new GenerateConfirmationCommand(
-            this.invoiceGenerator,
+            this.confirmationGenerator,
             this.fileService,
             this.logger,
             input,
