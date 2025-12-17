@@ -4,9 +4,9 @@ Biblioteka do generowania wizualizacji PDF faktur oraz UPO na podstawie plików 
 
 ## Dodatkowe funkcje względem oficjalnego generatora https://github.com/CIRFMF/ksef-pdf-generator
 
-- obsługa CLI - podziękowania dla https://github.com/lukasz-wojtanowski-softvig/ksef-pdf-generator
-- obsługa kodów QR2
-- osbługa potwierdzeń transakcji
+- [obsługa CLI](https://github.com/N1ebieski/ksef-pdf-generator/blob/feature/cli/src/cli/CLI-README.md) - podziękowania dla https://github.com/lukasz-wojtanowski-softvig/ksef-pdf-generator
+- [obsługa kodów QR2](https://github.com/N1ebieski/ksef-pdf-generator/blob/feature/cli/src/cli/CLI-README.md#2-generowanie-pdf-faktury-z-pliku-xml)
+- [osbługa potwierdzeń transakcji](https://github.com/N1ebieski/ksef-pdf-generator/blob/feature/cli/src/cli/CLI-README.md#3-generowanie-pdf-potwierdzenia-transakcji-dla-faktury-z-pliku-xml)
 
 ---
 
