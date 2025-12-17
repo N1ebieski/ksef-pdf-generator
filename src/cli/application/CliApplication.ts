@@ -1,7 +1,11 @@
 import { Command } from 'commander';
-import { GenerateInvoiceCommand, GeneratePdfCommand } from '../commands/index.js';
+import {
+  GenerateConfirmationCommand,
+  GenerateInvoiceCommand,
+  GeneratePdfCommand,
+} from '../commands/index.js';
 import { BrowserEnvironmentInitializer } from '../environment/index.js';
-import { InvoicePdfGenerator, UpoPdfGenerator } from '../generators/index.js';
+import { ConfirmationPdfGenerator, InvoicePdfGenerator, UpoPdfGenerator } from '../generators/index.js';
 import type { IEnvironmentInitializer } from '../interfaces/IEnvironmentInitializer.js';
 import type { IFileService } from '../interfaces/IFileService.js';
 import type { ILogger } from '../interfaces/ILogger.js';
@@ -15,6 +19,7 @@ export class CliApplication {
   private moduleLoader: PdfGeneratorModuleLoader;
   private invoiceGenerator?: IPdfGenerator;
   private upoGenerator?: IPdfGenerator;
+  private confirmationGenerator?: IPdfGenerator;
 
   constructor() {
     this.logger = new ConsoleLogger();
@@ -30,11 +35,13 @@ export class CliApplication {
 
     this.invoiceGenerator = new InvoicePdfGenerator(generators.generateInvoice);
     this.upoGenerator = new UpoPdfGenerator(generators.generatePDFUPO);
+    this.confirmationGenerator = new ConfirmationPdfGenerator();
   }
 
   setupCommands(program: Command): void {
     this.setupInvoiceCommand(program);
     this.setupUpoCommand(program);
+    this.setupConfirmationCommand(program);
   }
 
   private setupInvoiceCommand(program: Command): void {
@@ -99,6 +106,45 @@ export class CliApplication {
             input,
             output,
             'UPO'
+          );
+
+          await command.execute();
+        } catch (error) {
+          process.exit(1);
+        }
+      });
+  }
+
+  private setupConfirmationCommand(program: Command): void {
+    program
+      .command('confirmation')
+      .description('Generuj potwierdzenie transakcji PDF dla faktury z pliku XML')
+      .argument('<input>', 'Ścieżka do pliku XML faktury (FA(1), FA(2) lub FA(3))')
+      .argument('<output>', 'Ścieżka do wyjściowego pliku PDF')
+      .option('--qr-code <url>', 'URL do kodu QR faktury')
+      .option('--qr-code2 <url>', 'URL do kodu QR certyfikatu')
+      .action(async (input: string, output: string, options: any) => {
+        try {
+          const additionalData: any = {};
+
+          if (options.qrCode) {
+            additionalData.qrCode = options.qrCode;
+          }
+          if (options.qrCode2) {
+            additionalData.qrCode2 = options.qrCode2;
+          }
+
+          if (!this.confirmationGenerator) {
+            throw new Error('Generator potwierdzeń transakcji nie został zainicjalizowany');
+          }
+
+          const command = new GenerateConfirmationCommand(
+            this.confirmationGenerator,
+            this.fileService,
+            this.logger,
+            input,
+            output,
+            additionalData
           );
 
           await command.execute();
