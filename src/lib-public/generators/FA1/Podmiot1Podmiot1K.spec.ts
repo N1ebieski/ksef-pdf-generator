@@ -11,6 +11,7 @@ vi.mock('../../../shared/PDF-functions', () => ({
   createSubHeader: vi.fn((label: string) => ({ text: `SUBHEADER:${label}` })),
   verticalSpacing: vi.fn((v: number) => ({ text: `SPACING:${v}` })),
   getTable: vi.fn((data) => data || []),
+  generateColumns: vi.fn((left, right) => ({ columns: [left, right] })),
 }));
 vi.mock('./PodmiotAdres', () => ({
   generatePodmiotAdres: vi.fn((adres: any, label: string) => ({ adr: label })),

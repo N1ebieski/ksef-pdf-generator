@@ -21,11 +21,11 @@ describe(generateDaneKontaktowe.name, () => {
   it('returns mapped Content array when daneKontaktowe is provided', () => {
     const result = generateDaneKontaktowe(mockData);
     expect(getTable).toHaveBeenCalledWith(mockData);
-    expect(createLabelText).toHaveBeenCalledWith('Email: ', mockData[0].Email);
+    expect(createLabelText).toHaveBeenCalledWith('E-mail: ', mockData[0].Email);
     expect(createLabelText).toHaveBeenCalledWith('Tel.: ', mockData[0].Telefon);
     expect(Array.isArray(result)).toBe(true);
     expect(result?.length).toBe(2);
-    expect(result?.[0]).toEqual([{ text: 'Email: test@example.com' }, { text: 'Tel.: 123456789' }]);
+    expect(result?.[0]).toEqual([{ text: 'E-mail: test@example.com' }, { text: 'Tel.: 123456789' }]);
   });
 
   it('returns undefined when getTable returns undefined', () => {

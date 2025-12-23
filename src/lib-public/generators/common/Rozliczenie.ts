@@ -5,6 +5,7 @@ import {
   createLabelTextArray,
   createSection,
   createSubHeader,
+  generateColumns,
   generateTwoColumns,
   getContentTable,
   getTable,
@@ -52,12 +53,16 @@ export function generateRozliczenie(
   const tableObciazenia: FormContentState = getContentTable<(typeof obciazenia)[0]>(
     headerObciazenia,
     obciazenia,
-    '*'
+    '*',
+    undefined,
+    20
   );
   const tableOdliczenia: FormContentState = getContentTable<(typeof odliczenia)[0]>(
     headerOdliczenia,
     odliczenia,
-    '*'
+    '*',
+    undefined,
+    20
   );
   const SumaObciazen: Content[] = createLabelText(
     'Suma kwot obciążenia: ',
@@ -88,7 +93,7 @@ export function generateRozliczenie(
 
   result.push(createHeader('Rozliczenie', [0, 8, 0, 4]));
   if (obciazenia.length > 0 && odliczenia.length > 0) {
-    result.push(generateTwoColumns([resultObciazenia], [resultOdliczenia]));
+    result.push(generateColumns([resultObciazenia, resultOdliczenia]));
   } else if (obciazenia.length > 0) {
     result.push(generateTwoColumns([resultObciazenia], []));
   } else if (odliczenia.length > 0) {

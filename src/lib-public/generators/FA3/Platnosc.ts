@@ -80,7 +80,9 @@ export function generatePlatnosc(platnosc: Platnosc | undefined): Content {
   const tableZaplataCzesciowa = getContentTable<(typeof zaplataCzesciowa)[0]>(
     zaplataCzesciowaNaglowek,
     zaplataCzesciowa,
-    '*'
+    '*',
+    undefined,
+    20
   );
   const terminPatnosciContent = terminPlatnosci.map((platnosc) => {
     if (!terminPlatnosci.some((termin) => termin.TerminOpis)) {
@@ -98,7 +100,9 @@ export function generatePlatnosc(platnosc: Platnosc | undefined): Content {
   const tableTerminPlatnosci = getContentTable<(typeof terminPlatnosci)[0]>(
     zaplataCzesciowaHeader,
     terminPatnosciContent,
-    '*'
+    '*',
+    undefined,
+    20
   );
 
   if (zaplataCzesciowa.length > 0 && terminPlatnosci.length > 0) {
@@ -125,7 +129,7 @@ export function generatePlatnosc(platnosc: Platnosc | undefined): Content {
     } as ContentText);
   }
   if (platnosc.IPKSeF?._text) {
-    createLabelText('Identyfikator płatności Krajowego Systemu e-Faktur: ', platnosc.IPKSeF);
+    table.push(createLabelText('Identyfikator płatności Krajowego Systemu e-Faktur: ', platnosc.IPKSeF));
   }
 
   table.push(

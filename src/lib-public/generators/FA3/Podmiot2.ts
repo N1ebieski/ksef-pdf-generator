@@ -12,7 +12,7 @@ export function generatePodmiot2(podmiot2: Podmiot2): Content[] {
 
   result.push(
     createLabelText('Identyfikator nabywcy: ', podmiot2.IDNabywcy),
-    createLabelText('NrEORI: ', podmiot2.NrEORI)
+    createLabelText('Numer EORI: ', podmiot2.NrEORI)
   );
   if (podmiot2.DaneIdentyfikacyjne) {
     result.push(

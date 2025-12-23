@@ -40,7 +40,7 @@ describe('generatePodmiot3', () => {
     expect(last.left).toEqual(
       expect.arrayContaining([
         { text: 'HEADER:Podmiot inny 1' },
-        { text: 'LABEL:NrEORI: 999' },
+        { text: 'LABEL:Numer EORI: 999' },
         [{ text: 'LABEL:Rola: SPRZEDAWCA' }, { text: 'LABEL:Rola inna: ' }, { text: 'LABEL:Udział: ' }],
       ])
     );
@@ -60,7 +60,7 @@ describe('generatePodmiot3', () => {
     expect(col1).toEqual(
       expect.arrayContaining([
         { text: 'HEADER:Podmiot inny 2' },
-        { text: 'LABEL:NrEORI: 1000' },
+        { text: 'LABEL:Numer EORI: 1000' },
         { text: 'LABEL:Identyfikator podatkowy inny: TAXX' },
         { text: 'LABEL:Brak identyfikatora  ' },
         { id: 'ID' },

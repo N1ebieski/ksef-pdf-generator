@@ -1,7 +1,8 @@
 import { Content } from 'pdfmake/interfaces';
-import { createSection, getTable, getValue } from '../../../shared/PDF-functions.js';
-import { Faktura, Podmiot2K, Podmiot3 } from '../../types/fa3.types';
+import { createSection, generateColumns, getTable, getValue } from '../../../shared/PDF-functions.js';
+import { Adres } from '../../types/fa1.types';
 import { Podmiot3Podmiot2KDto } from '../../types/fa2-additional-types.js';
+import { Faktura, Podmiot2K, Podmiot3 } from '../../types/fa3.types';
 import { generatePodmiot1 } from './Podmiot1.js';
 import { generatePodmiot1Podmiot1K } from './Podmiot1Podmiot1K.js';
 import { generatePodmiot2 } from './Podmiot2.js';
@@ -9,7 +10,6 @@ import { generatePodmiot2Podmiot2K } from './Podmiot2Podmiot2k.js';
 import { generatePodmiot3 } from './Podmiot3.js';
 import { generateDaneIdentyfikacyjneTPodmiot3Dto } from './Podmiot3Podmiot2k.js';
 import { generatePodmiotUpowazniony } from './PodmiotUpowazniony.js';
-import { Adres } from '../../types/fa1.types';
 
 export function generatePodmioty(invoice: Faktura): Content[] {
   const result: Content[] = [];
@@ -32,10 +32,10 @@ export function generatePodmioty(invoice: Faktura): Content[] {
     }
   } else {
     result.push([
-      {
-        columns: [generatePodmiot1(invoice.Podmiot1!), generatePodmiot2(invoice.Podmiot2!)],
+      generateColumns([generatePodmiot1(invoice.Podmiot1!), generatePodmiot2(invoice.Podmiot2!)], {
         margin: [0, 0, 0, 8],
-      },
+        columnGap: 20,
+      }),
     ]);
   }
 
@@ -74,7 +74,7 @@ function getPodmiot3Podmiot2KDto(podmioty2K: Podmiot2K[], podmioty3: Podmiot3[])
     podmioty2K.length > 1 &&
     podmioty3.filter((p: Podmiot3): boolean => getValue(p.Rola) === '4').length > 0
   ) {
-    let idx: number = 1;
+    let idx = 1;
 
     podmioty3.forEach((podmiot3: Podmiot3): void => {
       if (getValue(podmiot3.Rola) === '4') {

@@ -1,10 +1,17 @@
 import { Content, ContentTable } from 'pdfmake/interfaces';
-import { createHeader, createSection, formatText } from '../../../shared/PDF-functions.js';
+import {
+  createHeader,
+  createSection,
+  formatText,
+  getValue,
+  hasValue,
+  makeBreakable,
+} from '../../../shared/PDF-functions.js';
+import { DEFAULT_TABLE_LAYOUT } from '../../../shared/consts/const.js';
 import FormatTyp from '../../../shared/enums/common.enum.js';
-import { RachunekBankowy } from '../../types/fa2.types';
 import { getTypRachunkowWlasnych } from '../../../shared/generators/common/functions.js';
 import { FP } from '../../types/fa1.types';
-import { DEFAULT_TABLE_LAYOUT } from '../../../shared/consts/const.js';
+import { RachunekBankowy } from '../../types/fa2.types';
 
 export const generujRachunekBankowy: (accounts?: Record<string, FP>[], title?: string) => Content[] = (
   accounts?: RachunekBankowy[],
@@ -25,23 +32,33 @@ export const generujRachunekBankowy: (accounts?: Record<string, FP>[], title?: s
 
     table.push([
       formatText('Pełny numer rachunku', FormatTyp.GrayBoldTitle),
-      formatText(account.NrRB?._text, FormatTyp.Default),
+      formatText(getValue(account.NrRB), FormatTyp.Default),
     ]);
     table.push([
       formatText('Kod SWIFT', FormatTyp.GrayBoldTitle),
-      formatText(account.SWIFT?._text, FormatTyp.Default),
+      formatText(getValue(account.SWIFT), FormatTyp.Default),
     ]);
     table.push([
       formatText('Rachunek własny banku', FormatTyp.GrayBoldTitle),
-      formatText(getTypRachunkowWlasnych(account.RachunekWlasnyBanku), FormatTyp.Default),
+      formatText(makeBreakable(getTypRachunkowWlasnych(account.RachunekWlasnyBanku), 20), FormatTyp.Default),
     ]);
     table.push([
       formatText('Nazwa banku', FormatTyp.GrayBoldTitle),
-      formatText(account.NazwaBanku?._text, FormatTyp.Default),
+      formatText(
+        hasValue(account.NazwaBanku)
+          ? makeBreakable(getValue(account.NazwaBanku), 20)
+          : getValue(account.NazwaBanku),
+        FormatTyp.Default
+      ),
     ]);
     table.push([
       formatText('Opis rachunku', FormatTyp.GrayBoldTitle),
-      formatText(account.OpisRachunku?._text, FormatTyp.Default),
+      formatText(
+        hasValue(account.OpisRachunku)
+          ? makeBreakable(getValue(account.OpisRachunku), 20)
+          : getValue(account.OpisRachunku),
+        FormatTyp.Default
+      ),
     ]);
     result.push([
       ...base,

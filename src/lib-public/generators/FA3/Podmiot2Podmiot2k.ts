@@ -3,6 +3,7 @@ import {
   createHeader,
   createLabelText,
   formatText,
+  generateColumns,
   getTable,
   verticalSpacing,
 } from '../../../shared/PDF-functions.js';
@@ -37,8 +38,9 @@ export function generatePodmiot2Podmiot2K(podmiot2: Podmiot2, podmiot2K: Podmiot
       columnGap: 20,
     });
   }
-  firstColumn = generateCorrectedContent(podmiot2K);
-  secondColumn = generateCorrectedContent(podmiot2);
+  firstColumn = generateCorrectedContent(podmiot2K, 'Treść korygowana');
+  secondColumn = generateCorrectedContent(podmiot2, 'Treść korygująca');
+
   if (podmiot2.AdresKoresp) {
     secondColumn.push(
       formatText('Adres do korespondencji', [FormatTyp.Label, FormatTyp.LabelMargin]),
@@ -47,10 +49,7 @@ export function generatePodmiot2Podmiot2K(podmiot2: Podmiot2, podmiot2K: Podmiot
   }
 
   if (firstColumn.length || secondColumn.length) {
-    result.push({
-      columns: [firstColumn, secondColumn],
-      columnGap: 20,
-    });
+    result.push(generateColumns([firstColumn, secondColumn]));
   }
   if (result.length) {
     result.push(verticalSpacing(1));

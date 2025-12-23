@@ -27,7 +27,7 @@ export function generatePodmiotUpowazniony(podmiot: PodmiotUpowazniony | undefin
     columnLeft.push(createLabelText('Rola: ', getRolaUpowaznionegoString(podmiot.RolaPU, 1)));
   }
   if (hasValue(podmiot.NrEORI)) {
-    columnLeft.push(createLabelText('NrEORI: ', podmiot.NrEORI));
+    columnLeft.push(createLabelText('Numer EORI: ', podmiot.NrEORI));
   }
   if (podmiot.DaneIdentyfikacyjne) {
     if (hasValue(podmiot.DaneIdentyfikacyjne.NrID)) {

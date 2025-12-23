@@ -8,6 +8,7 @@ vi.mock('../../../shared/PDF-functions', () => ({
   createLabelText: vi.fn((label: string, value: any): Content[] => [{ text: `${label}${value ?? ''}` }]),
   formatText: vi.fn((text: string, style?: any): Content => ({ text, style })),
   verticalSpacing: vi.fn().mockImplementation((size) => ({ margin: size })),
+  generateColumns: vi.fn((left, right) => ({ columns: [left, right] })),
 }));
 
 vi.mock('./Adres', () => ({
@@ -25,38 +26,43 @@ vi.mock('./PodmiotDaneKontaktowe', () => ({
 }));
 
 describe(generateCorrectedContent.name, () => {
+  const header = 'Treść korygowana';
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('should generate corrected content base values ', () => {
     const podmiot: Podmiot1K = {};
-    const result: Content[] = generateCorrectedContent(podmiot);
-    expect((result[0] as any).some((c: any) => c.text === 'Treść korygowana')).toBe(true);
+    const result: Content[] = generateCorrectedContent(podmiot, header);
+
+    expect((result[0] as any).some((c: any) => c.text === header)).toBe(true);
   });
 
   it('should generate corrected content with prefixPodatnika ', () => {
     const podmiot: Podmiot1K = { PrefiksPodatnika: { _text: 'tekst' } };
-    const result: Content[] = generateCorrectedContent(podmiot);
-    expect(result.length).equal(2);
+    const result: Content[] = generateCorrectedContent(podmiot, header);
 
-    expect((result[0] as any).some((c: any) => c.text === 'Treść korygowana')).toBe(true);
+    expect(result.length).equal(2);
+    expect((result[0] as any).some((c: any) => c.text === header)).toBe(true);
     expect((result[1] as any).some((c: any) => c.text.includes('Prefiks VAT: '))).toBe(true);
     expect((result[1] as any).some((c: any) => c.text.includes('[object Object]'))).toBe(true);
   });
 
   it('should generate corrected content with id data ', () => {
     const podmiot: Podmiot1K = { DaneIdentyfikacyjne: { NIP: 'NIP' as FP, Nazwa: 'nazwa' as FP } };
-    const result: Content[] = generateCorrectedContent(podmiot);
+    const result: Content[] = generateCorrectedContent(podmiot, header);
+
     expect(result.length).equal(2);
-    expect((result[0] as any).some((c: any) => c.text === 'Treść korygowana')).toBe(true);
+    expect((result[0] as any).some((c: any) => c.text === header)).toBe(true);
     expect((result[1] as any).text.includes('mockDaneIdentyfikacyjne')).toBe(true);
   });
   it('should generate corrected content with address ', () => {
     const podmiot: Podmiot1K = { Adres: { KodKraju: 'PL' as FP } };
-    const result: any = generateCorrectedContent(podmiot);
+    const result: any = generateCorrectedContent(podmiot, header);
+
     expect(result.length).equal(3);
-    expect((result[0] as any).some((c: any) => c.text === 'Treść korygowana')).toBe(true);
+    expect((result[0] as any).some((c: any) => c.text === header)).toBe(true);
     expect((result[1] as any).text.includes('Adres')).toBe(true);
     expect((result[2] as any).some((c: { text: string }) => c.text === 'mockAdres')).toBe(true);
   });
@@ -67,8 +73,9 @@ describe(generateCorrectedContent.name, () => {
       DaneIdentyfikacyjne: { NIP: '123' as FP, Nazwa: 'Firma' as FP },
       Adres: { KodKraju: 'PL' as FP },
     };
-    const result: any = generateCorrectedContent(podmiot);
-    expect((result[0] as any).some((c: any) => c.text === 'Treść korygowana')).toBe(true);
+    const result: any = generateCorrectedContent(podmiot, header);
+
+    expect((result[0] as any).some((c: any) => c.text === header)).toBe(true);
     expect((result[1] as any).some((c: any) => c.text.includes('Prefiks VAT: '))).toBe(true);
     expect((result[1] as any).some((c: any) => c.text.includes('[object Object]'))).toBe(true);
     expect((result[2] as any).text.includes('mockDaneIdentyfikacyjne')).toBe(true);

@@ -7,6 +7,7 @@ vi.mock('../../../shared/PDF-functions', () => ({
   getTable: vi.fn((obj) => (obj ? (Array.isArray(obj) ? obj : [obj]) : [])),
   getValue: vi.fn((val) => (val && val._text ? val._text : '')),
   hasValue: vi.fn((val) => Boolean(val && val._text)),
+  generateColumns: vi.fn((left, right) => ({ columns: [left, right] })),
 }));
 vi.mock('./Podmiot1', () => ({
   generatePodmiot1: vi.fn(() => [{ podmiot1: true }]),

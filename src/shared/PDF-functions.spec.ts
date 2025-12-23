@@ -26,7 +26,7 @@ describe('formatText', () => {
     expect(content).toEqual(
       expect.objectContaining({
         alignment: Position.RIGHT,
-        text: '100.00 PLN',
+        text: '100,00 PLN',
         style: FormatTyp.Currency,
         bold: true,
       })

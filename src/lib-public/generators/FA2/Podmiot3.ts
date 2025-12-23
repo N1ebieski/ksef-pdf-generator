@@ -20,7 +20,7 @@ export function generatePodmiot3(podmiot: Podmiot3, index: number): Content[] {
   const column1: Content[] = [
     ...createHeader(`Podmiot inny ${index + 1}`),
     createLabelText('Identyfikator nabywcy: ', podmiot.IDNabywcy),
-    createLabelText('NrEORI: ', podmiot.NrEORI),
+    createLabelText('Numer EORI: ', podmiot.NrEORI),
     ...generateDaneIdentyfikacyjneTPodmiot3Dto(podmiot.DaneIdentyfikacyjne),
     createLabelText('Rola: ', getRolaString(podmiot.Rola, 2)),
     createLabelText('Rola inna: ', podmiot.OpisRoli),

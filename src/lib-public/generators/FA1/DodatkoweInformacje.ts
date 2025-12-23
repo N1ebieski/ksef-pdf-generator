@@ -14,15 +14,20 @@ import FormatTyp from '../../../shared/enums/common.enum.js';
 import { FakturaZaliczkowa, TableWithFields } from '../../types/fa1-additional-types.js';
 
 export function generateDodatkoweInformacje(faVat: Fa): Content[] {
-  const tpLabel1: Content[] = [];
-  const tpLabel2: Content[] = [];
+  const tpLabel: Content[] = [];
 
   if (getValue(faVat.TP) === '1') {
-    tpLabel1.push(
+    tpLabel.push(
       formatText('- Istniejące powiązania między nabywcą a dokonującym dostawy towarów lub usługodawcą')
     );
-    tpLabel2.push(formatText('- Faktura, o której mowa w art. 109 ust. 3d ustawy'));
   }
+
+  const fpLabel: Content[] = [];
+
+  if (getValue(faVat.FP) === '1') {
+    fpLabel.push(formatText('- Faktura, o której mowa w art. 109 ust. 3d ustawy'));
+  }
+
   const zwrotAkcyzyLabel: Content[] = [];
 
   if (getValue(faVat.ZwrotAkcyzy) === '1') {
@@ -33,7 +38,7 @@ export function generateDodatkoweInformacje(faVat: Fa): Content[] {
     );
   }
 
-  const labels: Content[][] = [tpLabel1, tpLabel2, zwrotAkcyzyLabel].filter((el) => el.length > 0);
+  const labels: Content[][] = [tpLabel, fpLabel, zwrotAkcyzyLabel].filter((el) => el.length > 0);
   const table: Content[] = [
     ...createHeader('Dodatkowe informacje'),
     ...labels,

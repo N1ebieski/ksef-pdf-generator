@@ -14,6 +14,7 @@ vi.mock('../../../shared/PDF-functions', () => ({
   createSection: vi.fn((content: any, flag: boolean) => ({ content, flag })),
   getTable: vi.fn((data: any) => data || []),
   getValue: vi.fn((val: any) => val?._text ?? val),
+  generateColumns: vi.fn((left, right) => ({ columns: [left, right] })),
 }));
 
 vi.mock('./Podmiot1', () => ({

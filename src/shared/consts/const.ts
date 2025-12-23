@@ -404,3 +404,10 @@ export const DEFAULT_TABLE_LAYOUT: {
   vLineWidth: (): number => 1,
   vLineColor: (): string => '#BABABA',
 };
+
+export const TAXPAYER_STATUS: Record<string, string> = {
+  '1': 'Stan likwidacji',
+  '2': 'Postępowanie restrukturyzacyjne',
+  '3': 'Stan upadłości',
+  '4': 'Przedsiębiorstwo w spadku',
+};

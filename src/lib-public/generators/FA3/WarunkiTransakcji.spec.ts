@@ -125,7 +125,9 @@ describe(generateWarunkiTransakcji.name, () => {
             expect.objectContaining({ name: 'NrUmowy', title: 'Numer umowy' }),
           ]),
           expect.any(Array),
-          '*'
+          '*',
+          undefined,
+          20
         );
       });
 
@@ -173,7 +175,9 @@ describe(generateWarunkiTransakcji.name, () => {
             expect.objectContaining({ name: 'NrZamowienia', title: 'Numer zamówienia' }),
           ]),
           expect.any(Array),
-          '*'
+          '*',
+          undefined,
+          20
         );
       });
 

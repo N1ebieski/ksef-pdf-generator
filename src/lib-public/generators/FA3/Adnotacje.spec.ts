@@ -1,4 +1,6 @@
-import { describe, it, expect, vi, beforeEach, test } from 'vitest';
+import { beforeEach, describe, expect, it, test, vi } from 'vitest';
+import { createHeader, createLabelText, formatText, getTable } from '../../../shared/PDF-functions';
+import { generateAdnotacje, generateDostawy } from './Adnotacje';
 
 vi.mock('../../../shared/PDF-functions', () => ({
   createHeader: vi.fn((text: string) => ({ text, style: 'header' })),
@@ -7,10 +9,8 @@ vi.mock('../../../shared/PDF-functions', () => ({
   getTable: vi.fn(() => []),
   hasValue: vi.fn((v) => !!v?._text),
   verticalSpacing: vi.fn((n: number) => ({ text: `space-${n}` })),
+  generateColumns: vi.fn((left, right) => ({ columns: [left, right] })),
 }));
-
-import { createHeader, createLabelText, getTable, formatText } from '../../../shared/PDF-functions.js';
-import { generateAdnotacje, generateDostawy } from './Adnotacje.js';
 
 describe(generateAdnotacje.name, () => {
   beforeEach(() => {
@@ -19,6 +19,7 @@ describe(generateAdnotacje.name, () => {
 
   it('zwraca pustą tablicę jeśli brak adnotacji', () => {
     const result = generateAdnotacje(undefined);
+
     expect(result).toEqual([]);
   });
 
@@ -31,6 +32,7 @@ describe(generateAdnotacje.name, () => {
     [{ P_17: { _text: '1' } }, true, 'powinien dodać "Samofakturowanie"'],
   ])('dla adnotacji %s %s (%s)', (adnotacje, expected, desc) => {
     const result = generateAdnotacje(adnotacje as any);
+
     if (expected) {
       expect(result.length).toBeGreaterThan(0);
       expect(createHeader).toHaveBeenCalledWith('Adnotacje');
@@ -44,6 +46,7 @@ describe(generateAdnotacje.name, () => {
       NoweSrodkiTransportu: { P_42_5: { _text: '1' } },
     };
     const result = generateAdnotacje(adnotacje as any);
+
     expect(result.length).toBeGreaterThan(0);
   });
 
@@ -52,6 +55,7 @@ describe(generateAdnotacje.name, () => {
       PMarzy: { P_PMarzy: { _text: '1' }, P_PMarzy_3_1: { _text: '1' } },
     };
     const result = generateAdnotacje(adnotacje as any);
+
     expect(result.length).toBeGreaterThan(0);
     expect(createLabelText).toHaveBeenCalledWith('Procedura marży: ', 'towary używane');
   });
@@ -65,6 +69,7 @@ describe(generateDostawy.name, () => {
   it('zwraca pustą tablicę jeśli brak danych', () => {
     (getTable as any).mockReturnValueOnce([]);
     const result = generateDostawy({} as any);
+
     expect(result).toEqual([]);
   });
 
@@ -78,6 +83,7 @@ describe(generateDostawy.name, () => {
     ]);
 
     const result = generateDostawy({ NowySrodekTransportu: [] } as any);
+
     expect(result.length).toBeGreaterThan(0);
     expect(result[0]).toHaveProperty('table');
     expect(formatText).toHaveBeenCalledWith('2025-01-01');
@@ -92,6 +98,7 @@ describe(generateDostawy.name, () => {
 
     const result = generateDostawy({ NowySrodekTransportu: [] } as any);
     const textOutput = JSON.stringify(result);
+
     expect(textOutput).toContain(expected);
   });
 });

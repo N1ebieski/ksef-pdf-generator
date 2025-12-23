@@ -13,6 +13,7 @@ vi.mock('../../../shared/PDF-functions', () => ({
   getTable: vi.fn((arr) => arr || []),
   getValue: vi.fn((val) => (val && val._text ? val._text : '')),
   hasValue: vi.fn((val) => Boolean(val && val._text)),
+  generateColumns: vi.fn((left, right) => ({ columns: [left, right] })),
 }));
 vi.mock('./PodmiotAdres', () => ({
   generatePodmiotAdres: vi.fn((adres, label) => ({ adr: label })),

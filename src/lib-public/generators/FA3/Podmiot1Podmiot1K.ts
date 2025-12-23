@@ -3,6 +3,7 @@ import {
   createHeader,
   createLabelText,
   formatText,
+  generateColumns,
   getTable,
   verticalSpacing,
 } from '../../../shared/PDF-functions.js';
@@ -39,8 +40,8 @@ export function generatePodmiot1Podmiot1K(podmiot1: Podmiot1, podmiot1K: Podmiot
       columnGap: 20,
     });
   }
-  firstColumn = generateCorrectedContent(podmiot1K);
-  secondColumn = generateCorrectedContent(podmiot1);
+  firstColumn = generateCorrectedContent(podmiot1K, 'Treść korygowana');
+  secondColumn = generateCorrectedContent(podmiot1, 'Treść korygująca');
 
   if (podmiot1.AdresKoresp) {
     secondColumn.push(
@@ -49,10 +50,7 @@ export function generatePodmiot1Podmiot1K(podmiot1: Podmiot1, podmiot1K: Podmiot
     );
   }
   if (firstColumn.length || secondColumn.length) {
-    result.push({
-      columns: [firstColumn, secondColumn],
-      columnGap: 20,
-    });
+    result.push(generateColumns([firstColumn, secondColumn]));
   }
   if (result.length) {
     result.push(verticalSpacing(1));
@@ -60,10 +58,10 @@ export function generatePodmiot1Podmiot1K(podmiot1: Podmiot1, podmiot1K: Podmiot
   return result;
 }
 
-export function generateCorrectedContent(podmiot: Podmiot1 | Podmiot1K): Content[] {
+export function generateCorrectedContent(podmiot: Podmiot1 | Podmiot1K, header: string): Content[] {
   const result: Content[] = [];
 
-  result.push(createHeader('Treść korygowana'));
+  result.push(createHeader(header));
 
   if (podmiot.PrefiksPodatnika?._text) {
     result.push(createLabelText('Prefiks VAT: ', podmiot.PrefiksPodatnika));

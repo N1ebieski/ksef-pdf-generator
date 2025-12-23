@@ -3,6 +3,7 @@ import {
   createHeader,
   createLabelText,
   createSubHeader,
+  generateColumns,
   getTable,
   getValue,
   hasValue,
@@ -44,10 +45,7 @@ export function generatePodmiot2Podmiot2K(podmiot2: Podmiot2, podmiot2K: Podmiot
   }
 
   if (firstColumn.length || secondColumn.length) {
-    result.push({
-      columns: [firstColumn, secondColumn],
-      columnGap: 20,
-    });
+    result.push(generateColumns([firstColumn, secondColumn]));
   }
   if (result.length) {
     result.push(verticalSpacing(1));

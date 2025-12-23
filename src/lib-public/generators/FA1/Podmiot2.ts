@@ -17,7 +17,7 @@ import { DaneIdentyfikacyjneTPodmiot2Dto } from '../../types/fa2-additional-type
 export function generatePodmiot2(podmiot2: Podmiot2): Content[] {
   const result: Content[] = createHeader('Nabywca');
 
-  result.push(createLabelText('NrEORI: ', podmiot2.NrEORI));
+  result.push(createLabelText('Numer EORI: ', podmiot2.NrEORI));
   if (hasValue(podmiot2.PrefiksNabywcy)) {
     result.push(createLabelText('Prefiks VAT: ', podmiot2.PrefiksNabywcy));
   }

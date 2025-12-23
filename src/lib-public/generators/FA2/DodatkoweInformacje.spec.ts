@@ -1,6 +1,5 @@
-import { describe, it, expect, vi, beforeEach, test } from 'vitest';
+import { beforeEach, describe, expect, it, test, vi } from 'vitest';
 import { generateDodatkoweInformacje } from './DodatkoweInformacje.js';
-import FormatTyp from '../../../shared/enums/common.enum.js';
 
 vi.mock('../../../shared/PDF-functions', () => ({
   createHeader: vi.fn((text: string) => [{ text, style: 'header' }]),
@@ -13,13 +12,11 @@ vi.mock('../../../shared/PDF-functions', () => ({
 }));
 
 import {
-  createHeader,
   createSection,
   createSubHeader,
   formatText,
-  getValue,
-  getTable,
   getContentTable,
+  getTable,
 } from '../../../shared/PDF-functions.js';
 
 describe(generateDodatkoweInformacje.name, () => {
@@ -33,6 +30,7 @@ describe(generateDodatkoweInformacje.name, () => {
     [{ TP: { _text: '0' }, ZwrotAkcyzy: { _text: '0' } }, false],
   ])('dla danych %o', (faVat, shouldHaveContent) => {
     const result = generateDodatkoweInformacje(faVat as any);
+
     if (shouldHaveContent) {
       expect(result.length).toBeGreaterThan(0);
     } else {
@@ -60,6 +58,7 @@ describe(generateDodatkoweInformacje.name, () => {
 
   it('zwraca pustą tablicę gdy brak danych wejściowych', () => {
     const result = generateDodatkoweInformacje({} as any);
+
     expect(result).toEqual([]);
   });
 
@@ -76,6 +75,17 @@ describe(generateDodatkoweInformacje.name, () => {
     expect(formatText).toHaveBeenCalledWith(
       '- Informacja dodatkowa związana ze zwrotem podatku akcyzowego zawartego w cenie oleju napędowego'
     );
+    expect(createSection).toHaveBeenCalled();
+    expect(result.length).toBeGreaterThan(0);
+  });
+
+  it('poprawnie dodaje sekcję FP', () => {
+    const faVat = {
+      FP: { _text: '1' },
+    };
+    const result = generateDodatkoweInformacje(faVat as any);
+
+    expect(formatText).toHaveBeenCalledWith('- Faktura, o której mowa w art. 109 ust. 3d ustawy');
     expect(createSection).toHaveBeenCalled();
     expect(result.length).toBeGreaterThan(0);
   });

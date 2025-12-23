@@ -38,14 +38,20 @@ export function generateWarunkiTransakcji(warunkiTransakcji: WarunkiTransakcji |
   table.push(createHeader('Warunki transakcji', [0, 8, 0, 4]));
 
   if (umowy.length > 0) {
-    const tabUmowy = getContentTable<(typeof umowy)[0]>(definedHeaderUmowy, umowy, '*');
+    const tabUmowy = getContentTable<(typeof umowy)[0]>(definedHeaderUmowy, umowy, '*', undefined, 20);
 
     if (tabUmowy.content) {
       Kolumny.umowy = [createSubHeader('Umowa'), tabUmowy.content];
     }
   }
   if (zamowienia.length > 0) {
-    const tabZamowienia = getContentTable<(typeof zamowienia)[0]>(definedHeaderZamowienia, zamowienia, '*');
+    const tabZamowienia = getContentTable<(typeof zamowienia)[0]>(
+      definedHeaderZamowienia,
+      zamowienia,
+      '*',
+      undefined,
+      20
+    );
 
     if (tabZamowienia.content && tabZamowienia.fieldsWithValue.length > 0) {
       Kolumny.zamowienia = [createSubHeader('Zamówienie'), tabZamowienia.content];

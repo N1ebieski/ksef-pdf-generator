@@ -11,6 +11,8 @@ vi.mock('../../../shared/PDF-functions', () => ({
   createHeader: vi.fn((text: string): Content[] => [{ text, style: 'header' }]),
   createLabelText: vi.fn((label: string, value: any): Content[] => [{ text: `${label}${value ?? ''}` }]),
   formatText: vi.fn((text: string, style?: any): Content => ({ text, style })),
+  getValue: vi.fn((val) => val?._text || ''),
+  hasValue: vi.fn((val) => Boolean(val && val._text)),
 }));
 
 vi.mock('./Adres', () => ({
@@ -40,7 +42,7 @@ describe(generatePodmiot1.name, (): void => {
     const result: Content[] = generatePodmiot1(podmiot as Podmiot1);
 
     expect(createHeader).toHaveBeenCalledWith('Sprzedawca');
-    expect(createLabelText).toHaveBeenCalledWith('NrEORI: ', 'EORI123');
+    expect(createLabelText).toHaveBeenCalledWith('Numer EORI: ', 'EORI123');
     expect(createLabelText).toHaveBeenCalledWith('Prefiks VAT: ', 'PL');
     expect((result as any[]).some((c) => c?.[0]?.text.includes('EORI123'))).toBe(true);
   });
@@ -72,29 +74,27 @@ describe(generatePodmiot1.name, (): void => {
     expect(formatText).toHaveBeenCalledWith('Adres do korespondencji', ['Label', 'LabelMargin']);
   });
 
-  it('generates contact data and taxpayer status', (): void => {
+  it('generates contact data', (): void => {
     const podmiot: Partial<Podmiot1> = {
       DaneKontaktowe: [{ Telefon: { _text: '123' } }],
-      StatusInfoPodatnika: { _text: 'active' },
     };
     const result = generatePodmiot1(podmiot as Podmiot1);
 
     expect(generateDaneKontaktowe).toHaveBeenCalledWith([{ Telefon: { _text: '123' } }]);
-    expect(createLabelText).toHaveBeenCalledWith('Status podatnika: ', { _text: 'active' });
     expect(result.some((c: Content): boolean => (c as any).text === 'mockDaneKontaktowe')).toBe(true);
   });
 
-  it('generates only taxpayer status if no contact data', () => {
+  it('generates  taxpayer status ', () => {
     const podmiot: Partial<Podmiot1> = {
-      StatusInfoPodatnika: { _text: 'inactive' },
+      StatusInfoPodatnika: { _text: '1' },
     };
 
     const result: Content[] = generatePodmiot1(podmiot as Podmiot1);
 
-    expect(generateDaneKontaktowe).not.toHaveBeenCalled();
     expect(createLabelText).toHaveBeenCalledWith(
       expect.stringContaining('Status podatnika'),
-      expect.objectContaining({ _text: 'inactive' })
+      expect.stringContaining('Stan likwidacji')
     );
+    expect(result.some((c: Content): boolean => (c as any).text === 'mockDaneKontaktowe')).toBe(false);
   });
 });

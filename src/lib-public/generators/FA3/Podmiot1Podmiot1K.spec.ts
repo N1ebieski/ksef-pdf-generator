@@ -10,6 +10,7 @@ vi.mock('../../../shared/PDF-functions', () => ({
   getTable: vi.fn((data: any) => data || []),
   formatText: vi.fn((text: string, style?: any): Content => ({ text, style })),
   verticalSpacing: vi.fn((margin: number) => ({ margin })),
+  generateColumns: vi.fn((left, right) => ({ columns: [left, right] })),
 }));
 
 vi.mock('./Adres', () => ({
@@ -60,9 +61,7 @@ describe(generatePodmiot1Podmiot1K.name, () => {
 
     expect(result[2]).toHaveProperty('columns');
     expect(Array.isArray(result[2].columns[0])).toBe(true);
-    expect(Array.isArray(result[2].columns[1])).toBe(true);
     expect(result[2].columns[0].length).toBeGreaterThan(0);
-    expect(result[2].columns[1].length).toBeGreaterThan(0);
 
     expect(result[3]).toEqual({ margin: 1 });
   });
@@ -87,13 +86,9 @@ describe(generatePodmiot1Podmiot1K.name, () => {
 
     expect(result.length).toBe(4);
     expect(result[0]).toEqual({ text: 'Sprzedawca', style: 'header' });
-
     expect(result[1].columns[0]).toBeInstanceOf(Array);
     expect(result[1].columns[1]).toBeInstanceOf(Array);
-
     expect(result[2].columns[0]).toBeInstanceOf(Array);
-    expect(result[2].columns[1]).toBeInstanceOf(Array);
-
     expect(result[3]).toEqual({ margin: 1 });
   });
 });

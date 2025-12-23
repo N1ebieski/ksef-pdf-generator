@@ -9,6 +9,7 @@ vi.mock('../../../shared/PDF-functions', () => ({
   getTable: vi.fn(() => []),
   hasValue: vi.fn((v) => !!v?._text),
   verticalSpacing: vi.fn((n: number) => ({ text: `space-${n}` })),
+  generateColumns: vi.fn((left, right) => ({ columns: [left, right] })),
 }));
 
 describe(generateAdnotacje.name, () => {
@@ -114,9 +115,15 @@ describe(generateDostawy.name, () => {
     const result = generateAdnotacje(annotations);
     const flat = result.flatMap((r: any) => (Array.isArray(r.columns) ? r.columns.flat() : [r]))?.flat();
 
-    expect(flat.some((c: any) => c.text?.includes('Directive'))).toBe(true);
+    expect(
+      flat.flatMap((c) => (Array.isArray(c) ? c : [c])).some((item) => item?.text?.includes('Directive'))
+    ).toBe(true);
     expect(flat.some((c: any) => c.text?.includes('Dostawa towarów lub świadczenie'))).toBe(true);
-    expect(flat.some((c: any) => c.text?.includes('Podstawa zwolnienia od podatku'))).toBe(true);
+    expect(
+      flat
+        .flatMap((c) => (Array.isArray(c) ? c : [c]))
+        .some((item) => item?.text?.includes('Podstawa zwolnienia od podatku'))
+    ).toBe(true);
   });
 
   it('adds VAT-22 and calls generateDostawy', () => {

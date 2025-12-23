@@ -9,6 +9,8 @@ vi.mock('../../../shared/PDF-functions', () => ({
   })),
   formatText: vi.fn((text: string, _args?: any) => ({ text: `FMT:${text}` })),
   getTable: vi.fn((data) => data || []),
+  getValue: vi.fn((val) => val?._text || ''),
+  hasValue: vi.fn((val) => Boolean(val && val._text)),
 }));
 vi.mock('./PodmiotAdres', () => ({
   generatePodmiotAdres: vi.fn((adres: any, label: string) => ({ adr: `${label}` })),
@@ -33,7 +35,7 @@ describe('generatePodmiot1', () => {
     expect(result).toEqual(
       expect.arrayContaining([
         { text: 'HEADER:Sprzedawca' },
-        { text: 'LABEL:NrEORI: EORI123' },
+        { text: 'LABEL:Numer EORI: EORI123' },
         { text: 'LABEL:Prefiks VAT: PL' },
       ])
     );
@@ -66,7 +68,7 @@ describe('generatePodmiot1', () => {
       NrEORI: { _text: 'xxx' },
       PrefiksPodatnika: { _text: 'PL' },
       Email: { _text: 'a@b.pl' },
-      StatusInfoPodatnika: { _text: 'zarejestrowany' },
+      StatusInfoPodatnika: { _text: '2' },
     };
     const result = generatePodmiot1(podmiot1);
 
@@ -74,7 +76,7 @@ describe('generatePodmiot1', () => {
       expect.arrayContaining([
         { text: 'FMT:Dane kontaktowe' },
         { contact: 'KONTAKT' },
-        { text: 'LABEL:Status podatnika: zarejestrowany' },
+        { text: 'LABEL:Status podatnika: Postępowanie restrukturyzacyjne' },
       ])
     );
   });
@@ -83,10 +85,10 @@ describe('generatePodmiot1', () => {
     const podmiot1: Podmiot1 = {
       NrEORI: { _text: 'xxx' },
       PrefiksPodatnika: { _text: 'PL' },
-      StatusInfoPodatnika: { _text: 'SAMO' },
+      StatusInfoPodatnika: { _text: '1' },
     };
     const result = generatePodmiot1(podmiot1);
 
-    expect(result).toEqual(expect.arrayContaining([{ text: 'LABEL:Status podatnika: SAMO' }]));
+    expect(result).toEqual(expect.arrayContaining([{ text: 'LABEL:Status podatnika: Stan likwidacji' }]));
   });
 });

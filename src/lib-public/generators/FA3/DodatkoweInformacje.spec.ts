@@ -76,4 +76,17 @@ describe(generateDodatkoweInformacje.name, () => {
     expect(createSection).toHaveBeenCalled();
     expect(result.length).toBeGreaterThan(0);
   });
+
+    it('poprawnie dodaje sekcję FP', () => {
+    const faVat = {
+      FP: { _text: '1' },
+    };
+    const result = generateDodatkoweInformacje(faVat as any);
+
+    expect(formatText).toHaveBeenCalledWith(
+      '- Faktura, o której mowa w art. 109 ust. 3d ustawy'
+    );
+    expect(createSection).toHaveBeenCalled();
+    expect(result.length).toBeGreaterThan(0);
+  });
 });

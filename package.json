@@ -1,6 +1,6 @@
 {
   "name": "@akmf/ksef-fe-invoice-converter",
-  "version": "0.0.30",
+  "version": "0.0.32",
   "scripts": {
     "dev": "vite --mode public --config vite.config.ts",
     "build": "vite build --mode production",
@@ -15,15 +15,15 @@
     "test:ui": "vitest --ui",
     "test:ci": "vitest run --coverage"
   },
-  "main": "./ksef-fe-invoice-converter.umd.js",
-  "module": "./ksef-fe-invoice-converter.es.js",
-  "types": "./src/lib/index.d.ts",
+  "main": "./ksef-fe-invoice-converter.umd.cjs",
+  "module": "./ksef-fe-invoice-converter.js",
+  "types": "./index.d.ts",
   "type": "module",
   "exports": {
     ".": {
-      "types": "./src/lib/index.d.ts",
-      "import": "./ksef-fe-invoice-converter.es.js",
-      "require": "./ksef-fe-invoice-converter.umd.js"
+      "types": "./index.d.ts",
+      "import": "./ksef-fe-invoice-converter.js",
+      "require": "./ksef-fe-invoice-converter.umd.cjs"
     }
   },
   "keywords": [],

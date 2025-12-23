@@ -8,6 +8,7 @@ vi.mock('../../../shared/PDF-functions', () => ({
   formatText: vi.fn().mockImplementation((text) => ({ text })),
   hasValue: vi.fn((val) => Boolean(val && val._text)),
   verticalSpacing: vi.fn().mockImplementation((size) => ({ text: `SPACING:${size}` })),
+  generateColumns: vi.fn((left, right) => ({ columns: [left, right] })),
 }));
 
 describe(generateAdnotacje.name, () => {

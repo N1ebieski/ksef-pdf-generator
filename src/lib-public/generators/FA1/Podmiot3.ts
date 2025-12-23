@@ -21,7 +21,7 @@ export function generatePodmiot3(podmiot: Podmiot3, index: number): Content[] {
 
   const column1: Content[] = [
     ...createHeader(`Podmiot inny ${index + 1}`),
-    createLabelText('NrEORI: ', podmiot.NrEORI),
+    createLabelText('Numer EORI: ', podmiot.NrEORI),
   ];
 
   if (hasValue(podmiot.DaneIdentyfikacyjne?.NrID)) {

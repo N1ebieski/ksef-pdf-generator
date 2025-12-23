@@ -18,6 +18,7 @@ vi.mock('../../../shared/PDF-functions', () => ({
 
 vi.mock('./Adres', async () => {
   const actual = await vi.importActual('./Adres');
+
   return {
     ...actual,
     generateAdres: vi.fn((): Content[] => [{ text: 'mockAddress' } as Content]),
@@ -26,6 +27,7 @@ vi.mock('./Adres', async () => {
 
 vi.mock('./PodmiotDaneIdentyfikacyjneTPodmiot2Dto', async () => {
   const actual = await vi.importActual('./PodmiotDaneIdentyfikacyjneTPodmiot2Dto');
+
   return {
     ...actual,
     generateDaneIdentyfikacyjneTPodmiot2Dto: vi.fn((): Content[] => [
@@ -36,6 +38,7 @@ vi.mock('./PodmiotDaneIdentyfikacyjneTPodmiot2Dto', async () => {
 
 vi.mock('./PodmiotDaneKontaktowe', async () => {
   const actual = await vi.importActual('./PodmiotDaneKontaktowe');
+
   return {
     ...actual,
     generateDaneKontaktowe: vi.fn((): Content[] => [{ text: 'mockDaneKontaktowe' } as Content]),
@@ -53,7 +56,7 @@ describe(generatePodmiot2.name, () => {
 
     expect(createHeader).toHaveBeenCalledWith('Nabywca');
     expect(createLabelText).toHaveBeenCalledWith('Identyfikator nabywcy: ', 'ID123');
-    expect(createLabelText).toHaveBeenCalledWith('NrEORI: ', 'EORI123');
+    expect(createLabelText).toHaveBeenCalledWith('Numer EORI: ', 'EORI123');
     expect(result[0]).toEqual({ text: 'Nabywca', style: 'header' });
   });
 
@@ -110,8 +113,8 @@ describe(generatePodmiot2.name, () => {
 
     const addressCount = result.filter((c: any) => c.text === 'mockAddress').length;
     const fifthElementLength = Array.isArray(result[5]) ? result[5].length : 0;
-    expect(addressCount + fifthElementLength).toBe(2);
 
+    expect(addressCount + fifthElementLength).toBe(2);
     expect(result.some((c: any) => c.text === 'mockDaneKontaktowe')).toBe(true);
     expect(createLabelText).toHaveBeenCalledWith('Numer klienta: ', 'CL123');
   });

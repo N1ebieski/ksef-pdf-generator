@@ -32,7 +32,7 @@ describe('generatePodmiot2', () => {
     const result = generatePodmiot2(podmiot2);
 
     expect(result).toEqual(
-      expect.arrayContaining([{ text: 'HEADER:Nabywca' }, { text: 'LABEL:NrEORI: EORI777' }])
+      expect.arrayContaining([{ text: 'HEADER:Nabywca' }, { text: 'LABEL:Numer EORI: EORI777' }])
     );
   });
 

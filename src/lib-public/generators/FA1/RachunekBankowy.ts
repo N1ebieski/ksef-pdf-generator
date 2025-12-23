@@ -1,9 +1,16 @@
 import { Content, ContentTable } from 'pdfmake/interfaces';
-import { createHeader, createSection, formatText } from '../../../shared/PDF-functions.js';
-import FormatTyp from '../../../shared/enums/common.enum.js';
-import { FP } from '../../types/fa1.types';
-import { getTypRachunkowWlasnych } from '../../../shared/generators/common/functions.js';
+import {
+  createHeader,
+  createSection,
+  formatText,
+  getValue,
+  hasValue,
+  makeBreakable,
+} from '../../../shared/PDF-functions.js';
 import { DEFAULT_TABLE_LAYOUT } from '../../../shared/consts/const.js';
+import FormatTyp from '../../../shared/enums/common.enum.js';
+import { getTypRachunkowWlasnych } from '../../../shared/generators/common/functions.js';
+import { FP } from '../../types/fa1.types';
 
 export const generujRachunekBankowy: (accounts?: Record<string, FP>[], title?: string) => Content[] = (
   accounts?: Record<string, FP>[],
@@ -22,40 +29,40 @@ export const generujRachunekBankowy: (accounts?: Record<string, FP>[], title?: s
       [0, 12, 0, 8]
     );
 
-    if (account.NrRBZagr?._text) {
+    if (hasValue(account.NrRBZagr)) {
       table.push([
         formatText('Format rachunku', FormatTyp.GrayBoldTitle),
         formatText('Zagraniczny', FormatTyp.Default),
       ]);
-    } else if (account.NrRBPL?._text) {
+    } else if (hasValue(account.NrRBPL)) {
       table.push([
         formatText('Format rachunku', FormatTyp.GrayBoldTitle),
         formatText('Polski', FormatTyp.Default),
       ]);
     }
-    if (account.NrRBPL?._text) {
+    if (hasValue(account.NrRBPL)) {
       table.push([
         formatText('Pełny numer rachunku w standardzie NRB', FormatTyp.GrayBoldTitle),
-        formatText(account.NrRBPL?._text, FormatTyp.Default),
+        formatText(getValue(account.NrRBPL), FormatTyp.Default),
       ]);
     }
-    if (account.NrRBZagr?._text) {
+    if (hasValue(account.NrRBZagr)) {
       table.push([
         formatText('Pełny numer rachunku zagranicznego', FormatTyp.GrayBoldTitle),
-        formatText(account.NrRBZagr?._text, FormatTyp.Default),
+        formatText(getValue(account.NrRBZagr), FormatTyp.Default),
       ]);
     }
     table.push([
       formatText('Kod SWIFT', FormatTyp.GrayBoldTitle),
-      formatText(account.SWIFT?._text, FormatTyp.Default),
+      formatText(getValue(account.SWIFT), FormatTyp.Default),
     ]);
     table.push([
       formatText('Rachunek własny banku', FormatTyp.GrayBoldTitle),
-      formatText(getTypRachunkowWlasnych(account.RachunekWlasnyBanku), FormatTyp.Default),
+      formatText(makeBreakable(getTypRachunkowWlasnych(account.RachunekWlasnyBanku), 20), FormatTyp.Default),
     ]);
     table.push([
       formatText('Nazwa banku', FormatTyp.GrayBoldTitle),
-      formatText(account.NazwaBanku?._text, FormatTyp.Default),
+      formatText(makeBreakable(getValue(account.NazwaBanku), 20), FormatTyp.Default),
     ]);
     result.push([
       ...base,

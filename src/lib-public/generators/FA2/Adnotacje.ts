@@ -3,6 +3,7 @@ import {
   createHeader,
   createLabelText,
   formatText,
+  generateColumns,
   getTable,
   hasValue,
   verticalSpacing,
@@ -105,7 +106,7 @@ export function generateAdnotacje(adnotacje?: Adnotacje): Content[] {
       secondColumn.push({ text: 'Samofakturowanie' });
     }
     if (firstColumn.length || secondColumn.length) {
-      result.push({ columns: [firstColumn, secondColumn], columnGap: 20 });
+      result.push(generateColumns([firstColumn, secondColumn]));
     }
 
     if (result.length) {

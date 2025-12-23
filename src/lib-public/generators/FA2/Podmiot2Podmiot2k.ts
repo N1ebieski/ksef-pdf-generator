@@ -3,6 +3,7 @@ import {
   createHeader,
   createLabelText,
   formatText,
+  generateColumns,
   getTable,
   hasValue,
   verticalSpacing,
@@ -39,8 +40,8 @@ export function generatePodmiot2Podmiot2K(podmiot2: Podmiot2, podmiot2K: Podmiot
       columnGap: 20,
     });
   }
-  firstColumn = generateCorrectedContent(podmiot2K);
-  secondColumn = generateCorrectedContent(podmiot2);
+  firstColumn = generateCorrectedContent(podmiot2K, 'Treść korygowana');
+  secondColumn = generateCorrectedContent(podmiot2, 'Treść korygująca');
   if (podmiot2.AdresKoresp) {
     secondColumn.push(
       formatText('Adres do korespondencji', [FormatTyp.Label, FormatTyp.LabelMargin]),
@@ -49,10 +50,7 @@ export function generatePodmiot2Podmiot2K(podmiot2: Podmiot2, podmiot2K: Podmiot
   }
 
   if (firstColumn.length || secondColumn.length) {
-    result.push({
-      columns: [firstColumn, secondColumn],
-      columnGap: 20,
-    });
+    result.push(generateColumns([firstColumn, secondColumn]));
   }
   if (result.length) {
     result.push(verticalSpacing(1));
@@ -60,10 +58,10 @@ export function generatePodmiot2Podmiot2K(podmiot2: Podmiot2, podmiot2K: Podmiot
   return result;
 }
 
-export function generateCorrectedContent(podmiot: Podmiot2 | Podmiot2K): Content[] {
+export function generateCorrectedContent(podmiot: Podmiot2 | Podmiot2K, header: string): Content[] {
   const result: Content[] = [];
 
-  result.push(createHeader('Treść korygowana'));
+  result.push(createHeader(header));
 
   if (hasValue(podmiot.IDNabywcy)) {
     result.push(createLabelText('Identyfikator nabywcy: ', podmiot.IDNabywcy));

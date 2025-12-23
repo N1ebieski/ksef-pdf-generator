@@ -6,6 +6,7 @@ vi.mock('../../../shared/PDF-functions', () => ({
   createHeader: vi.fn((...args) => ({ header: args[0], margin: args[1] })),
   createSubHeader: vi.fn((label) => ({ subHeader: label })),
   generateTwoColumns: vi.fn((left, right) => ({ columns: [left, right] })),
+  generateColumns: vi.fn((left, right) => ({ columns: [left, right] })),
   getTable: vi.fn((rows) => rows ?? []),
   getContentTable: vi.fn((header, rows) => ({ content: rows })),
   createLabelText: vi.fn((label, value) => ({ label, value })),
