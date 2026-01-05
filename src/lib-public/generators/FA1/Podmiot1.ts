@@ -7,7 +7,7 @@ import {
   getValue,
   hasValue,
 } from '../../../shared/PDF-functions.js';
-import { TAXPAYER_STATUS } from '../../../shared/consts/const';
+import { TAXPAYER_STATUS } from '../../../shared/consts/const.js';
 import FormatTyp from '../../../shared/enums/common.enum.js';
 import { Podmiot1 } from '../../types/fa1.types';
 import { generatePodmiotAdres } from './PodmiotAdres.js';

@@ -1,5 +1,5 @@
 import { Content } from 'pdfmake/interfaces';
-import { TAXPAYER_STATUS } from '../../../shared/consts/const';
+import { TAXPAYER_STATUS } from '../../../shared/consts/const.js';
 import FormatTyp from '../../../shared/enums/common.enum.js';
 import {
   createHeader,
