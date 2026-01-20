@@ -15,7 +15,7 @@ import { Procedura, TRodzajFaktury } from '../../../shared/consts/const.js';
 import { Fa, FP } from '../../types/fa1.types';
 import FormatTyp, { Position } from '../../../shared/enums/common.enum.js';
 import { FormContentState } from '../../../shared/types/additional-data.types';
-import { shouldAddMarza } from '../common/Wiersze.js';
+import { addMarza } from '../common/Wiersze.js';
 
 export function generateWiersze(faVat: Fa): Content {
   const table: Content[] = [];
