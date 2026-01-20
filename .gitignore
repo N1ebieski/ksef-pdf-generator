@@ -20,3 +20,4 @@ sea-prep.blob
 .vscode
 *.swp
 /.vs
+/signtool.exe
