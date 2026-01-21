@@ -1,7 +1,7 @@
 import pdfMake from 'pdfmake/build/pdfmake';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { generatePDFUPO } from './UPO-generator';
-import * as XMLParser from '../shared/XML-parser';
+import * as XMLParser from '../shared/XML-parser.js';
+import { generatePDFUPO } from './UPO-generator.js';
 
 describe('generatePDFUPO', () => {
   const dummyFile = new File(['dummy'], 'dummy.xml', { type: 'text/xml' });
