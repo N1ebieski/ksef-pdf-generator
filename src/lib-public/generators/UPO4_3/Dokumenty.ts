@@ -1,4 +1,6 @@
 import { Content } from 'pdfmake/interfaces';
+import { DEFAULT_TABLE_LAYOUT } from '../../../shared/consts/const.js';
+import FormatTyp from '../../../shared/enums/common.enum.js';
 import {
   formatText,
   generateLine,
@@ -7,11 +9,9 @@ import {
   getValue,
   hasValue,
   verticalSpacing,
-} from '../../../shared/PDF-functions';
-import { HeaderDefine } from '../../../shared/types/pdf-types';
-import FormatTyp from '../../../shared/enums/common.enum';
+} from '../../../shared/PDF-functions.js';
 import { FormContentState } from '../../../shared/types/additional-data.types';
-import { DEFAULT_TABLE_LAYOUT } from '../../../shared/consts/const';
+import { HeaderDefine } from '../../../shared/types/pdf-types.js';
 import { Dokument, IDKontekstu, Potwierdzenie } from '../../types/upo-v4_3.types';
 
 export function generateDokumentUPO(potwierdzenie: Potwierdzenie): Content[] {
