@@ -1,5 +1,5 @@
 import { Content } from 'pdfmake/interfaces';
-import { createHeader, createLabelText, formatText, getTable } from '../../../shared/PDF-functions.js';
+import { createHeader, createLabelText, formatText, getValue } from '../../../shared/PDF-functions.js';
 import FormatTyp from '../../../shared/enums/common.enum.js';
 import { Podmiot2 } from '../../types/fa3.types';
 import { generateAdres } from './Adres.js';
@@ -38,19 +38,24 @@ export function generatePodmiot2(podmiot2: Podmiot2): Content[] {
       createLabelText('Numer klienta: ', podmiot2.NrKlienta)
     );
 
-    const daneKontaktowe = getTable(podmiot2.DaneKontaktowe);
-
-    if (daneKontaktowe.length) {
+    if (podmiot2?.JST) {
       result.push(
         createLabelText(
           'Faktura dotyczy jednostki podrzędnej JST: ',
-          daneKontaktowe[0].JST?._text === '1' ? 'TAK' : 'NIE'
+          getValue(podmiot2?.JST)?.toString().trim() === '1' ? 'TAK' : 'NIE',
+          FormatTyp.Default,
+          { marginTop: 8 }
         )
       );
+    }
+
+    if (podmiot2?.GV) {
       result.push(
         createLabelText(
           'Faktura dotyczy członka grupy GV: ',
-          daneKontaktowe[0].GV?._text === '1' ? 'TAK' : 'NIE'
+          getValue(podmiot2?.GV)?.toString().trim() === '1' ? 'TAK' : 'NIE',
+          FormatTyp.Default,
+          podmiot2?.JST ? {} : { marginTop: 8 }
         )
       );
     }
