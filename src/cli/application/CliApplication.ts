@@ -53,6 +53,7 @@ export class CliApplication {
       .option('--nr-ksef <numer>', 'Numer KSeF faktury')
       .option('--qr-code <url>', 'URL do kodu QR faktury')
       .option('--qr2-code <url>', 'URL do kodu QR certyfikatu')
+      .option('--qr-code2 <url>', 'URL do kodu QR certyfikatu DEPRECATED - użyj --qr2-code')
       .action(async (input: string, output: string, options: any) => {
         try {
           const additionalData: any = {};
@@ -62,6 +63,9 @@ export class CliApplication {
           }
           if (options.qrCode) {
             additionalData.qrCode = options.qrCode;
+          }
+          if (options.qrCode2) {
+            additionalData.qr2Code = options.qrCode2;
           }
           if (options.qr2Code) {
             additionalData.qr2Code = options.qr2Code;
