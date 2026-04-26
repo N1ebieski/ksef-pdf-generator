@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Content } from 'pdfmake/interfaces';
 import {
   createHeader,
@@ -20,35 +21,48 @@ export function generatePodmiotUpowazniony(podmiot: PodmiotUpowazniony | undefin
   if (!podmiot) {
     return [];
   }
-  const result: Content[] = createHeader('Podmiot upoważniony');
+  const result: Content[] = createHeader(i18n.t('invoice.authorizedSubject.authorizedSubject'));
   const columnLeft: Content[] = [];
   const columnRight: Content[] = [];
 
   if (hasValue(podmiot.RolaPU)) {
-    columnLeft.push(createLabelText('Rola: ', translateMap(podmiot.RolaPU, TRolaPodmiotuUpowaznionegoFA1)));
+    columnLeft.push(
+      createLabelText(
+        i18n.t('invoice.authorizedSubject.role'),
+        translateMap(podmiot.RolaPU, TRolaPodmiotuUpowaznionegoFA1)
+      )
+    );
   }
   if (hasValue(podmiot.NrEORI)) {
-    columnLeft.push(createLabelText('Numer EORI: ', podmiot.NrEORI));
+    columnLeft.push(createLabelText(i18n.t('invoice.authorizedSubject.eori'), podmiot.NrEORI));
   }
   if (podmiot.DaneIdentyfikacyjne) {
     if (hasValue(podmiot.DaneIdentyfikacyjne.NrID)) {
-      columnLeft.push(createLabelText('Identyfikator podatkowy inny: ', podmiot.DaneIdentyfikacyjne.NrID));
+      columnLeft.push(
+        createLabelText(i18n.t('invoice.authorizedSubject.otherTaxId'), podmiot.DaneIdentyfikacyjne.NrID)
+      );
     }
     if (getValue(podmiot.DaneIdentyfikacyjne.BrakID) === '1') {
-      columnLeft.push(createLabelText('Brak identyfikatora ', ' '));
+      columnLeft.push(createLabelText(i18n.t('invoice.authorizedSubject.noTaxId'), ' '));
     }
     columnLeft.push(generateDaneIdentyfikacyjne(podmiot.DaneIdentyfikacyjne));
   }
 
   if (podmiot.Adres) {
-    columnRight.push(generatePodmiotAdres(podmiot.Adres, 'Adres', true));
+    columnRight.push(generatePodmiotAdres(podmiot.Adres, i18n.t('invoice.authorizedSubject.address'), true));
   }
   if (podmiot.AdresKoresp) {
-    columnRight.push(generatePodmiotAdres(podmiot.AdresKoresp, 'Adres do korespondencji', true));
+    columnRight.push(
+      generatePodmiotAdres(
+        podmiot.AdresKoresp,
+        i18n.t('invoice.authorizedSubject.correspondenceAddress'),
+        true
+      )
+    );
   }
   if (podmiot.EmailPU || podmiot.TelefonPU) {
     columnRight.push(
-      formatText('Dane kontaktowe', [FormatTyp.Label]),
+      formatText(i18n.t('invoice.authorizedSubject.contactData'), [FormatTyp.Label]),
       ...generateDaneKontaktowe(podmiot.EmailPU, getTable(podmiot.TelefonPU))
     );
   }

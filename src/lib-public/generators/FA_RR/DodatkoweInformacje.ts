@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Content } from 'pdfmake/interfaces';
 import FormatTyp from '../../../shared/enums/common.enum.js';
 import {
@@ -12,7 +13,7 @@ import { DodatkowyOpi, DokumentZaplaty, FakturaRR as Fa } from '../../types/FaRR
 
 export function generateDodatkoweInformacje(fa: Fa): Content[] {
   const table: Content[] = [
-    ...createHeader('Dodatkowe informacje'),
+    ...createHeader('invoice.additionalInformation.additionalInformationLabel'),
     ...generateDokumentyZaplaty(fa.DokumentZaplaty),
     ...generateDodatkowyOpis(fa.DodatkowyOpis),
   ];
@@ -28,24 +29,27 @@ function generateDokumentyZaplaty(dokumentZaplaty: DokumentZaplaty[] | undefined
     ...item,
     lp: { _text: index + 1 },
   }));
-  const table: Content[] = createSubHeader('Dokumenty Zapłaty', [0, 0, 0, 4]);
+  const table: Content[] = createSubHeader(
+    i18n.t('invoice.additionalInformation.paymentDocuments'),
+    [0, 0, 0, 4]
+  );
 
   const dokumentZaplatyHeader: HeaderDefine[] = [
     {
       name: 'lp',
-      title: 'Lp.',
+      title: i18n.t('invoice.additionalInformation.ordinalNumber'),
       format: FormatTyp.Default,
       width: 'auto',
     },
     {
       name: 'NrDokumentu',
-      title: 'Numer dokumentu',
+      title: i18n.t('invoice.additionalInformation.documentNumber'),
       format: FormatTyp.Default,
       width: '*',
     },
     {
       name: 'DataDokumentu',
-      title: 'Data dokumentu',
+      title: i18n.t('invoice.additionalInformation.documentDate'),
       format: FormatTyp.Date,
       width: 'auto',
     },
@@ -71,30 +75,30 @@ function generateDodatkowyOpis(dodatkowyOpis: DodatkowyOpi[] | undefined): Conte
     ...item,
     lp: { _text: index + 1 },
   }));
-  const table: Content[] = createSubHeader('Dodatkowy opis');
+  const table: Content[] = createSubHeader(i18n.t('invoice.additionalInformation.additionalDescription'));
 
   const dodatkowyOpisHeader: HeaderDefine[] = [
     {
       name: 'lp',
-      title: 'Lp.',
+      title: i18n.t('invoice.additionalInformation.ordinalNumber'),
       format: FormatTyp.Default,
       width: 'auto',
     },
     {
       name: 'NrWiersza',
-      title: 'Numer wiersza',
+      title: i18n.t('invoice.additionalInformation.rowNumber'),
       format: FormatTyp.Default,
       width: 'auto',
     },
     {
       name: 'Klucz',
-      title: 'Rodzaj informacji',
+      title: i18n.t('invoice.additionalInformation.infoType'),
       format: FormatTyp.Default,
       width: 'auto',
     },
     {
       name: 'Wartosc',
-      title: 'Treść informacji',
+      title: i18n.t('invoice.additionalInformation.infoContent'),
       format: FormatTyp.Default,
       width: '*',
     },

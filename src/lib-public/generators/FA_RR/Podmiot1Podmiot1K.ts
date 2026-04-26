@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Content } from 'pdfmake/interfaces';
 import {
   createHeader,
@@ -16,13 +17,13 @@ import { generateDaneIdentyfikacyjneTPodmiot1Dto } from './PodmiotDaneIdentyfika
 import { generateDaneKontaktowe } from './PodmiotDaneKontaktowe.js';
 
 export function generatePodmiot1Podmiot1K(podmiot1: Podmiot1Class, podmiot1K: Podmiot1KClass): Content[] {
-  const result: Content[] = createHeader('Sprzedawca');
+  const result: Content[] = createHeader(i18n.t('invoice.subject1K.seller'));
   let firstColumn: Content[] = [];
   let secondColumn: Content[] = [];
 
   if (podmiot1.DaneIdentyfikacyjne) {
     firstColumn.push(
-      createHeader('Dane identyfikacyjne'),
+      createHeader(i18n.t('invoice.subject1K.identificationData')),
       ...generateDaneIdentyfikacyjneTPodmiot1Dto(podmiot1.DaneIdentyfikacyjne)
     );
   }
@@ -31,12 +32,14 @@ export function generatePodmiot1Podmiot1K(podmiot1: Podmiot1Class, podmiot1K: Po
     const daneKontaktowe = generateDaneKontaktowe(getTable(podmiot1.DaneKontaktowe));
 
     if (daneKontaktowe.length) {
-      firstColumn.push(createHeader('Dane kontaktowe'));
+      firstColumn.push(createHeader(i18n.t('invoice.subject1K.contactDetails')));
       firstColumn.push(daneKontaktowe);
     }
   }
   if (hasValue(podmiot1.NrKontrahenta)) {
-    firstColumn.push(createLabelText('Numer kontrahenta: ', getValue(podmiot1.NrKontrahenta)));
+    firstColumn.push(
+      createLabelText(i18n.t('invoice.subject1K.contractorNumber'), getValue(podmiot1.NrKontrahenta))
+    );
   }
 
   if (firstColumn.length) {
@@ -45,12 +48,12 @@ export function generatePodmiot1Podmiot1K(podmiot1: Podmiot1Class, podmiot1K: Po
       columnGap: 20,
     });
   }
-  firstColumn = generateCorrectedContent(podmiot1K, 'Treść korygowana');
-  secondColumn = generateCorrectedContent(podmiot1, 'Treść korygująca');
+  firstColumn = generateCorrectedContent(podmiot1K, i18n.t('invoice.subject1K.correctedContent'));
+  secondColumn = generateCorrectedContent(podmiot1, i18n.t('invoice.subject1K.correctiveContent'));
 
   if (podmiot1.AdresKoresp) {
     secondColumn.push(
-      formatText('Adres do korespondencji', [FormatTyp.Label, FormatTyp.LabelMargin]),
+      formatText(i18n.t('invoice.subject1K.mailingAddress'), [FormatTyp.Label, FormatTyp.LabelMargin]),
       generateAdres(podmiot1.AdresKoresp)
     );
   }
@@ -72,7 +75,10 @@ export function generateCorrectedContent(podmiot: Podmiot1Class | Podmiot1KClass
     result.push(...generateDaneIdentyfikacyjneTPodmiot1Dto(podmiot.DaneIdentyfikacyjne));
   }
   if (podmiot.Adres) {
-    result.push(formatText('Adres', [FormatTyp.Label, FormatTyp.LabelMargin]), generateAdres(podmiot.Adres));
+    result.push(
+      formatText(i18n.t('invoice.subject1K.address'), [FormatTyp.Label, FormatTyp.LabelMargin]),
+      generateAdres(podmiot.Adres)
+    );
   }
   return result;
 }

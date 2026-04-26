@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Content } from 'pdfmake/interfaces';
 import { TRolaPodmiotuUpowaznionegoFA3 } from '../../../shared/consts/FA.const.js';
 import { translateMap } from '../../../shared/generators/common/functions.js';
@@ -11,22 +12,28 @@ export function generatePodmiotUpowazniony(podmiotUpowazniony: PodmiotUpowaznion
   if (!podmiotUpowazniony) {
     return [];
   }
-  const result: Content[] = createHeader('Podmiot upoważniony');
+  const result: Content[] = createHeader(i18n.t('invoice.authorizedSubject.authorizedSubject'));
 
   if (hasValue(podmiotUpowazniony.RolaPU)) {
     result.push(
-      createLabelText('Rola: ', translateMap(podmiotUpowazniony.RolaPU, TRolaPodmiotuUpowaznionegoFA3))
+      createLabelText(
+        i18n.t('invoice.authorizedSubject.role'),
+        translateMap(podmiotUpowazniony.RolaPU, TRolaPodmiotuUpowaznionegoFA3)
+      )
     );
   }
   if (hasValue(podmiotUpowazniony.NrEORI)) {
-    result.push(createLabelText('Numer EORI: ', podmiotUpowazniony.NrEORI));
+    result.push(createLabelText(i18n.t('invoice.authorizedSubject.eori'), podmiotUpowazniony.NrEORI));
   }
   if (podmiotUpowazniony.DaneIdentyfikacyjne) {
     result.push(generateDaneIdentyfikacyjneTPodmiot1Dto(podmiotUpowazniony.DaneIdentyfikacyjne));
   }
   result.push([
     ...generatePodmiotAdres(podmiotUpowazniony.Adres),
-    ...generatePodmiotAdres(podmiotUpowazniony.AdresKoresp, 'Adres korespondencyjny'),
+    ...generatePodmiotAdres(
+      podmiotUpowazniony.AdresKoresp,
+      i18n.t('invoice.authorizedSubject.correspondenceAddress2')
+    ),
     ...generatePodmiotUpowaznionyDaneKontaktowe(podmiotUpowazniony.DaneKontaktowe),
   ]);
 

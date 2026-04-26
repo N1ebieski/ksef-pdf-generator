@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Content } from 'pdfmake/interfaces';
 import { createHeader, generateTwoColumns } from '../../../shared/PDF-functions.js';
 import { Przewoznik } from '../../types/fa2.types';
@@ -9,11 +10,16 @@ export function generatePrzewoznik(przewoznik: Przewoznik | undefined): Content 
     return [];
   }
   return [
-    ...createHeader('Przewoźnik'),
+    ...createHeader(i18n.t('invoice.carrier.carrier')),
     [
       generateTwoColumns(
         generateDaneIdentyfikacyjneTPodmiot2Dto(przewoznik.DaneIdentyfikacyjne as any),
-        generatePodmiotAdres(przewoznik.AdresPrzewoznika, 'Adres przewoźnika', true, [0, 0, 0, 0]),
+        generatePodmiotAdres(
+          przewoznik.AdresPrzewoznika,
+          i18n.t('invoice.carrier.carrierAddress'),
+          true,
+          [0, 0, 0, 0]
+        ),
         [0, 0, 0, 8]
       ),
     ],

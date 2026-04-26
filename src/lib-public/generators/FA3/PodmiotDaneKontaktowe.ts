@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Content } from 'pdfmake/interfaces';
 import { createLabelText, getTable } from '../../../shared/PDF-functions.js';
 import { Podmiot1DaneKontaktowe } from '../../types/fa3.types';
@@ -6,8 +7,8 @@ export function generateDaneKontaktowe(daneKontaktowe: Podmiot1DaneKontaktowe[])
   return getTable(daneKontaktowe)?.map((daneKontaktowe) => {
     if (daneKontaktowe?.Email || daneKontaktowe?.Telefon) {
       return [
-        createLabelText('E-mail: ', daneKontaktowe.Email),
-        createLabelText('Tel.: ', daneKontaktowe.Telefon),
+        createLabelText(i18n.t('invoice.authorizedSubject.email'), daneKontaktowe.Email),
+        createLabelText(i18n.t('invoice.authorizedSubject.phone'), daneKontaktowe.Telefon),
       ];
     } else {
       return '-';

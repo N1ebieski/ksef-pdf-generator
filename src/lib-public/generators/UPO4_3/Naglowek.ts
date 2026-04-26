@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Content } from 'pdfmake/interfaces';
 import { createLabelText, generateTwoColumns } from '../../../shared/PDF-functions.js';
 import { Position } from '../../../shared/enums/common.enum.js';
@@ -8,24 +9,21 @@ export function generateNaglowekUPO(potwierdzenie: Potwierdzenie): Content[] {
     generateTwoColumns(
       {
         text: [
-          { text: 'Krajowy System ', fontSize: 18 },
-          { text: 'e', color: 'red', bold: true, fontSize: 18 },
-          { text: '-Faktur', bold: true, fontSize: 18 },
+          { text: i18n.t('invoice.header.ksefPart1'), fontSize: 18 },
+          { text: i18n.t('invoice.header.ksefPart2'), color: 'red', bold: true, fontSize: 18 },
+          { text: i18n.t('invoice.header.ksefPart3'), bold: true, fontSize: 18 },
         ],
       },
       [
         {
           text: createLabelText(
-            'Nazwa pełna podmiotu, któremu doręczono dokument elektroniczny: ',
+            i18n.t('invoice.upo.entityFullName'),
             potwierdzenie!.NazwaPodmiotuPrzyjmujacego
           ),
           alignment: Position.RIGHT,
         },
         {
-          text: createLabelText(
-            'Informacja o dokumencie: ',
-            'Dokument został zarejestrowany w systemie teleinformatycznym Ministerstwa Finansów'
-          ),
+          text: createLabelText(i18n.t('invoice.upo.documentInfo'), i18n.t('invoice.upo.registeredInMF')),
           alignment: Position.RIGHT,
         },
       ]

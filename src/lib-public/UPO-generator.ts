@@ -5,10 +5,13 @@ import { parseXML } from '../shared/XML-parser.js';
 import { Position } from '../shared/enums/common.enum.js';
 import { generateDokumentUPO } from './generators/UPO4_3/Dokumenty.js';
 import { generateNaglowekUPO } from './generators/UPO4_3/Naglowek.js';
+import { initI18next } from './i18n/i18n-init.js';
 import { Upo } from './types/upo-v4_2.types';
 
 export async function generatePDFUPO(file: File): Promise<Blob> {
   const upo = (await parseXML(file)) as Upo;
+
+  await initI18next();
   const docDefinition: TDocumentDefinitions = {
     content: [generateNaglowekUPO(upo.Potwierdzenie!), generateDokumentUPO(upo.Potwierdzenie!)],
     ...generateStyle(),

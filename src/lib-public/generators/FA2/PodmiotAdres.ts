@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Content, Margins } from 'pdfmake/interfaces';
 import { createHeader, createSubHeader } from '../../../shared/PDF-functions.js';
 import { Adres } from '../../types/fa2.types';
@@ -5,7 +6,7 @@ import { generateAdres } from './Adres.js';
 
 export function generatePodmiotAdres(
   podmiotAdres: Adres | undefined,
-  headerTitle = 'Adres',
+  headerTitle = i18n.t('invoice.subject1.address'),
   isSubheader = false,
   headerMargin?: Margins
 ): Content[] {

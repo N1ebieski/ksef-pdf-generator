@@ -117,6 +117,11 @@ node dist/cli/index.js invoice examples/invoice.xml output/faktura.pdf
 node dist/cli/index.js upo examples/upo.xml output/upo.pdf
 ```
 
+## 6.Lokalizacja - i18next
+
+Biblioteka wspiera lokalizację, poprzez użycie biblioteki i18next. Pliki z tłumaczeniami należy umieścic w folderze
+** src/lib-public/i18n/lang **. Dokumentacja samej biblioteki i18next znajduje się pod adresem https://www.i18next.com/.
+
 ---
 
 ### 1. Nazewnictwo zmiennych i metod

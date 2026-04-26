@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Content, ContentTable } from 'pdfmake/interfaces';
 import {
   createHeader,
@@ -27,22 +28,22 @@ export const generujRachunekBankowy = (accounts?: RachunekBankowy[], title?: str
     );
 
     table.push([
-      formatText('Pełny numer rachunku', FormatTyp.GrayBoldTitle),
+      formatText(i18n.t('invoice.registers.fullAccountNumber'), FormatTyp.GrayBoldTitle),
       formatText(getValue(account.NrRB), FormatTyp.Default),
     ]);
     table.push([
-      formatText('Kod SWIFT', FormatTyp.GrayBoldTitle),
+      formatText(i18n.t('invoice.registers.swiftCode'), FormatTyp.GrayBoldTitle),
       formatText(getValue(account.SWIFT), FormatTyp.Default),
     ]);
     table.push([
-      formatText('Rachunek własny banku', FormatTyp.GrayBoldTitle),
+      formatText(i18n.t('invoice.registers.ownBankAccount'), FormatTyp.GrayBoldTitle),
       formatText(
         makeBreakable(translateMap(account.RachunekWlasnyBanku, TypRachunkowWlasnych), 20),
         FormatTyp.Default
       ),
     ]);
     table.push([
-      formatText('Nazwa banku', FormatTyp.GrayBoldTitle),
+      formatText(i18n.t('invoice.registers.bankName'), FormatTyp.GrayBoldTitle),
       formatText(
         hasValue(account.NazwaBanku)
           ? makeBreakable(getValue(account.NazwaBanku), 20)
@@ -51,7 +52,7 @@ export const generujRachunekBankowy = (accounts?: RachunekBankowy[], title?: str
       ),
     ]);
     table.push([
-      formatText('Opis rachunku', FormatTyp.GrayBoldTitle),
+      formatText(i18n.t('invoice.registers.accountDescription'), FormatTyp.GrayBoldTitle),
       formatText(
         hasValue(account.OpisRachunku)
           ? makeBreakable(getValue(account.OpisRachunku), 20)

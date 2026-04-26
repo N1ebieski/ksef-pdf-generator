@@ -3,6 +3,7 @@ import pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import { Content, TDocumentDefinitions } from 'pdfmake/interfaces';
 import { generateStyle, getValue, hasValue } from '../shared/PDF-functions.js';
 import { TRodzajFaktury } from '../shared/consts/FA.const.js';
+import { generateWatermark } from '../shared/consts/watermark.js';
 import { Position } from '../shared/enums/common.enum.js';
 import { ZamowienieKorekta } from './enums/invoice.enums.js';
 import { generateAdnotacje } from './generators/FA2/Adnotacje.js';
@@ -29,7 +30,7 @@ export function generateFA2(invoice: Faktura, additionalData: AdditionalDataType
     invoice.Fa?.RodzajFaktury?._text == TRodzajFaktury.KOR && hasValue(invoice.Fa?.OkresFaKorygowanej);
   const rabatOrRowsInvoice: Content = isKOR_RABAT ? generateRabat(invoice.Fa!) : generateWiersze(invoice.Fa!);
   const docDefinition: TDocumentDefinitions = {
-    watermark: additionalData?.watermark,
+    ...generateWatermark(additionalData?.watermark),
     content: [
       ...generateNaglowek(invoice.Fa, additionalData),
       generateDaneFaKorygowanej(invoice.Fa),

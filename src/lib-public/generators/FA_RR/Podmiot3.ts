@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Content } from 'pdfmake/interfaces';
 import {
   createHeader,
@@ -19,26 +20,29 @@ export function generatePodmiot3(podmiot: Podmiot3, index: number): Content[] {
 
   result.push(generateLine());
   const column1: Content[] = [
-    ...createHeader(`Podmiot inny ${index + 1}`),
+    ...createHeader(i18n.t('invoice.subject3.otherEntity', { index: index + 1 })),
     ...generateDaneIdentyfikacyjneTPodmiot3Dto(podmiot.DaneIdentyfikacyjne),
-    createLabelText('Rola: ', translateMap(podmiot.Rola, FARRRolaPodmiotu3)),
-    createLabelText('Opis roli: ', podmiot.OpisRoli),
+    createLabelText(i18n.t('invoice.subject3.role'), translateMap(podmiot.Rola, FARRRolaPodmiotu3)),
+    createLabelText(i18n.t('invoice.subject3.roleDescription'), podmiot.OpisRoli),
   ];
 
   const column2: Content[] = [];
 
   if (podmiot.Adres) {
-    column2.push(formatText('Adres', [FormatTyp.Label, FormatTyp.LabelMargin]), generateAdres(podmiot.Adres));
+    column2.push(
+      formatText(i18n.t('invoice.subject3.address'), [FormatTyp.Label, FormatTyp.LabelMargin]),
+      generateAdres(podmiot.Adres)
+    );
   }
   if (podmiot.AdresKoresp) {
     column2.push(
-      formatText('Adres do korespondencji', [FormatTyp.Label, FormatTyp.LabelMargin]),
+      formatText(i18n.t('invoice.subject3.correspondenceAddress'), [FormatTyp.Label, FormatTyp.LabelMargin]),
       ...generateAdres(podmiot.AdresKoresp)
     );
   }
   if (podmiot.DaneKontaktowe) {
     column2.push(
-      formatText('Dane kontaktowe', [FormatTyp.Label, FormatTyp.LabelMargin]),
+      formatText(i18n.t('invoice.subject3.contactData'), [FormatTyp.Label, FormatTyp.LabelMargin]),
       ...generateDaneKontaktowe(podmiot.DaneKontaktowe)
     );
   }

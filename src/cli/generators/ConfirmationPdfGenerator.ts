@@ -1,7 +1,9 @@
+import i18n from 'i18next';
 import pdfMake, { TCreatedPdf } from 'pdfmake/build/pdfmake.js';
 import { Content, ContentText, TDocumentDefinitions } from 'pdfmake/interfaces.js';
 import { generateQR2CodeData, generateQRCodeData } from '../../lib-public/generators/common/Stopka.js';
 import { generatePodmioty } from '../../lib-public/generators/FA3/Podmioty.js';
+import { initI18next } from '../../lib-public/i18n/i18n-init.js';
 import { AdditionalDataTypes } from '../../lib-public/types/common.types.js';
 import { Fa as Fa3, Naglowek } from '../../lib-public/types/fa3.types';
 import { Faktura } from '../../lib-public/types/fa3.types.js';
@@ -21,6 +23,8 @@ import type { IPdfGenerator } from '../interfaces/IPdfGenerator.js';
 
 export class ConfirmationPdfGenerator implements IPdfGenerator {
   public async generate(file: File, additionalData?: any): Promise<Blob> {
+    await initI18next();
+
     const xml: unknown = await parseXML(file);
 
     let pdf: TCreatedPdf;
@@ -59,7 +63,7 @@ export class ConfirmationPdfGenerator implements IPdfGenerator {
       createSection(
         [
           {
-            stack: createLabelText('Wytworzona w:', naglowek?.SystemInfo),
+            stack: createLabelText(i18n.t('invoice.footer.generatedIn'), naglowek?.SystemInfo),
             margin: [0, 8, 0, 0],
           },
         ],
@@ -80,7 +84,7 @@ export class ConfirmationPdfGenerator implements IPdfGenerator {
     if (rodzajFaktury == TRodzajFaktury.ROZ && Number(p_15) !== 0) {
       opis = {
         stack: createLabelTextArray([
-          { value: 'Kwota pozostała do zapłaty: ', formatTyp: FormatTyp.LabelGreater },
+          { value: i18n.t('invoice.rows.remainingAmount'), formatTyp: FormatTyp.LabelGreater },
           {
             value: p_15,
             formatTyp: FormatTyp.CurrencyGreater,
@@ -99,7 +103,7 @@ export class ConfirmationPdfGenerator implements IPdfGenerator {
     ) {
       opis = {
         stack: createLabelTextArray([
-          { value: 'Kwota należności ogółem: ', formatTyp: FormatTyp.LabelGreater },
+          { value: i18n.t('invoice.rows.totalAmountDue'), formatTyp: FormatTyp.LabelGreater },
           {
             value: p_15,
             formatTyp: [FormatTyp.CurrencyGreater, FormatTyp.HeaderContent, FormatTyp.Value],
@@ -114,25 +118,35 @@ export class ConfirmationPdfGenerator implements IPdfGenerator {
   }
 
   private generateNaglowek(fa?: Fa3): Content[] {
-    const confirmationName = 'Potwierdzenie transakcji';
+    const confirmationName = i18n.t('invoice.confirmation.name');
+    const invoiceNumber = formatText(getValue(fa?.P_2), FormatTyp.HeaderPosition);
 
-    return [
+    const header: Content[] = [
       {
         text: [
-          { text: 'Krajowy System ', fontSize: 18 },
-          { text: 'e', color: 'red', bold: true, fontSize: 18 },
-          { text: '-Faktur', bold: true, fontSize: 18 },
+          { text: i18n.t('invoice.header.ksefPart1'), fontSize: 18 },
+          { text: i18n.t('invoice.header.ksefPart2'), color: 'red', bold: true, fontSize: 18 },
+          { text: i18n.t('invoice.header.ksefPart3'), bold: true, fontSize: 18 },
         ],
       },
-      { ...(formatText('Numer Faktury:', FormatTyp.ValueMedium) as ContentText), alignment: Position.RIGHT },
       {
-        ...(formatText(getValue(fa?.P_2), FormatTyp.HeaderPosition) as ContentText),
-        alignment: Position.RIGHT,
-      },
-      {
-        ...(formatText(confirmationName, [FormatTyp.ValueMedium, FormatTyp.Default]) as ContentText),
+        ...(formatText(i18n.t('invoice.header.invoiceNumberLabel'), FormatTyp.ValueMedium) as ContentText),
         alignment: Position.RIGHT,
       },
     ];
+
+    if (typeof invoiceNumber !== 'string') {
+      header.push({
+        ...invoiceNumber,
+        alignment: Position.RIGHT,
+      });
+    }
+
+    header.push({
+      ...(formatText(confirmationName, [FormatTyp.ValueMedium, FormatTyp.Default]) as ContentText),
+      alignment: Position.RIGHT,
+    });
+
+    return header;
   }
 }

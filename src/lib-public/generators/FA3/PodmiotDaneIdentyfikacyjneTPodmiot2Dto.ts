@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Content } from 'pdfmake/interfaces';
 import { createLabelText, createLabelTextArray, formatText } from '../../../shared/PDF-functions.js';
 import FormatTyp from '../../../shared/enums/common.enum.js';
@@ -8,11 +9,11 @@ export function generateDaneIdentyfikacyjneTPodmiot2Dto(
 ): Content[] {
   const result: Content[] = [];
 
-  result.push(createLabelText('NIP: ', daneIdentyfikacyjne.NIP));
+  result.push(createLabelText(i18n.t('invoice.subject2.nip'), daneIdentyfikacyjne.NIP));
   if (daneIdentyfikacyjne.NrVatUE?._text) {
     result.push(
       createLabelTextArray([
-        { value: 'Numer VAT-UE: ', formatTyp: FormatTyp.Label },
+        { value: i18n.t('invoice.subject2.vatUeNumber'), formatTyp: FormatTyp.Label },
         { value: daneIdentyfikacyjne.KodUE, formatTyp: FormatTyp.Value },
         { value: ' ' },
         { value: daneIdentyfikacyjne.NrVatUE, formatTyp: FormatTyp.Value },
@@ -22,7 +23,7 @@ export function generateDaneIdentyfikacyjneTPodmiot2Dto(
   if (daneIdentyfikacyjne.NrID?._text) {
     result.push(
       createLabelTextArray([
-        { value: 'Identyfikator podatkowy inny: ', formatTyp: FormatTyp.Label },
+        { value: i18n.t('invoice.subject2.taxIdOther'), formatTyp: FormatTyp.Label },
         { value: daneIdentyfikacyjne.KodKraju || '', formatTyp: FormatTyp.Value },
         { value: ' ' },
         { value: daneIdentyfikacyjne.NrID, formatTyp: FormatTyp.Value },
@@ -30,8 +31,8 @@ export function generateDaneIdentyfikacyjneTPodmiot2Dto(
     );
   }
   if (daneIdentyfikacyjne.BrakID?._text === '1') {
-    result.push(formatText('Brak identyfikatora', FormatTyp.Label));
+    result.push(formatText(i18n.t('invoice.subject2.noTaxId'), FormatTyp.Label));
   }
-  result.push(createLabelText('Nazwa: ', daneIdentyfikacyjne.Nazwa));
+  result.push(createLabelText(i18n.t('invoice.subject2.name'), daneIdentyfikacyjne.Nazwa));
   return result;
 }

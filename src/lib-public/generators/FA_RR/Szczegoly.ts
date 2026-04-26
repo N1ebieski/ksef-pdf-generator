@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Content } from 'pdfmake/interfaces';
 import FormatTyp from '../../../shared/enums/common.enum.js';
 import {
@@ -21,20 +22,29 @@ export function generateSzczegoly(fa: Fa): Content[] {
     const Common_KursWaluty = getDifferentColumnsValue('KursWaluty', faWiersze);
 
     if (Common_KursWaluty.length === 1) {
-      kursWalutyLabel.push(createLabelText('Kurs waluty: ', Common_KursWaluty[0].value, FormatTyp.Currency6));
+      kursWalutyLabel.push(
+        createLabelText(
+          i18n.t('invoice.details.currencyRate'),
+          Common_KursWaluty[0].value,
+          FormatTyp.Currency6
+        )
+      );
     }
   }
 
   const columns1: Content[] = [
-    createLabelText('Data wystawienia: ', fa.P_4B, FormatTyp.Date),
-    createLabelText('Data dokonania nabycia: ', fa.P_4A, FormatTyp.Date),
+    createLabelText(i18n.t('invoice.details.invoiceDateShort'), fa.P_4B, FormatTyp.Date),
+    createLabelText(i18n.t('invoice.details.getDate'), fa.P_4A, FormatTyp.Date),
     kursWalutyLabel,
   ].filter((el) => el.length > 0);
-  const columns2: Content[] = [createLabelText('Miejsce wystawienia: ', fa.P_1M)].filter(
+  const columns2: Content[] = [createLabelText(i18n.t('invoice.details.place'), fa.P_1M)].filter(
     (el) => el.length > 0
   );
 
-  const table: Content[] = [...createHeader('Szczegóły'), generateTwoColumns(columns1, columns2)];
+  const table: Content[] = [
+    ...createHeader(i18n.t('invoice.details.header')),
+    generateTwoColumns(columns1, columns2),
+  ];
 
   return createSection(table, true);
 }

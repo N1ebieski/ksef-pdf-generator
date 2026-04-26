@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { Content, ContentText } from 'pdfmake/interfaces';
 import { formatText, generateLine, getValue } from '../../../shared/PDF-functions.js';
 import { TRodzajFaktury } from '../../../shared/consts/FA.const.js';
@@ -10,22 +11,25 @@ export function generateNaglowek(fa?: Fa, additionalData?: AdditionalDataTypes):
 
   switch (getValue(fa?.RodzajFaktury)) {
     case TRodzajFaktury.VAT_RR:
-      invoiceName = 'Faktura pierwotna VAT RR';
+      invoiceName = i18n.t('invoice.header.primalInvoiceVatRr');
       break;
     case TRodzajFaktury.KOR_VAT_RR:
-      invoiceName = 'Faktura korygująca VAT RR';
+      invoiceName = i18n.t('invoice.header.correctedInvoiceVatRr');
       break;
   }
 
   return [
     {
       text: [
-        { text: 'Krajowy System ', fontSize: 18 },
-        { text: 'e', color: 'red', bold: true, fontSize: 18 },
-        { text: '-Faktur', bold: true, fontSize: 18 },
+        { text: i18n.t('invoice.header.ksefPart1'), fontSize: 18 },
+        { text: i18n.t('invoice.header.ksefPart2'), color: 'red', bold: true, fontSize: 18 },
+        { text: i18n.t('invoice.header.ksefPart3'), bold: true, fontSize: 18 },
       ],
     },
-    { ...(formatText('Numer Faktury:', FormatTyp.ValueMedium) as ContentText), alignment: Position.RIGHT },
+    {
+      ...(formatText(i18n.t('invoice.header.invoiceNumberLabel'), FormatTyp.ValueMedium) as ContentText),
+      alignment: Position.RIGHT,
+    },
     {
       ...(formatText(getValue(fa?.P_4C), FormatTyp.HeaderPosition) as ContentText),
       alignment: Position.RIGHT,
@@ -38,7 +42,7 @@ export function generateNaglowek(fa?: Fa, additionalData?: AdditionalDataTypes):
       ? [
           {
             text: [
-              formatText('Numer KSeF:', FormatTyp.LabelMedium) as ContentText,
+              formatText(i18n.t('invoice.header.ksefNumberLabel'), FormatTyp.LabelMedium) as ContentText,
               formatText(additionalData?.nrKSeF, FormatTyp.ValueMedium),
             ],
             alignment: Position.RIGHT,

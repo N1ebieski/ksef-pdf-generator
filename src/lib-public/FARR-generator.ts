@@ -1,6 +1,7 @@
 import pdfMake, { TCreatedPdf } from 'pdfmake/build/pdfmake.js';
 import pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
+import { generateWatermark } from '../shared/consts/watermark.js';
 import { Position } from '../shared/enums/common.enum.js';
 import { generateStyle } from '../shared/PDF-functions.js';
 import { generateDaneFaKorygowanej } from './generators/common/DaneFaKorygowanej.js';
@@ -19,7 +20,7 @@ pdfMake.vfs = pdfFonts.vfs;
 
 export function generateFARR(invoice: FaRR, additionalData: AdditionalDataTypes): TCreatedPdf {
   const docDefinition: TDocumentDefinitions = {
-    watermark: additionalData?.watermark,
+    ...generateWatermark(additionalData?.watermark),
     content: [
       ...generateNaglowek(invoice.FakturaRR, additionalData),
       generateDaneFaKorygowanej(invoice.FakturaRR),

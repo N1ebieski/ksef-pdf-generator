@@ -4,6 +4,7 @@ import { generateFA1 } from './FA1-generator.js';
 import { generateFA2 } from './FA2-generator.js';
 import { generateFA3 } from './FA3-generator.js';
 import { generateFARR } from './FARR-generator.js';
+import { initI18next } from './i18n/i18n-init.js';
 import { AdditionalDataTypes } from './types/common.types';
 import { Faktura as Faktura1 } from './types/fa1.types';
 import { Faktura as Faktura2 } from './types/fa2.types';
@@ -29,6 +30,8 @@ export async function generateInvoice(
   const wersja: any = (xml as any)?.Faktura?.Naglowek?.KodFormularza?._attributes?.kodSystemowy;
 
   let pdf: TCreatedPdf;
+
+  await initI18next();
 
   return new Promise((resolve): void => {
     switch (wersja) {
