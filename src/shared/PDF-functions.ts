@@ -18,7 +18,7 @@ import {
   TStawkaPodatku_FA1,
   TStawkaPodatku_FA2,
   TStawkaPodatku_FA3,
-} from './consts/const.js';
+} from './consts/FA.const.js';
 import { TStawkaPodatku_FARR } from './consts/FARR.const.js';
 import FormatTyp, { Answer, Position } from './enums/common.enum.js';
 import { formatDateTimePl, formatTime, translateMap } from './generators/common/functions.js';
@@ -215,14 +215,12 @@ export function createLabelTextArray(data: CreateLabelTextData[]): Content[] {
   ];
 }
 
-export function addThousandSeparator(
-  value: string,
-  thousandSeparator: string = ' ',
-  decimalSeparator: string = ','
-): string {
+export function addThousandSeparator(value: string, thousandSeparator = ' ', decimalSeparator = ','): string {
   const splitRegex = /\B(?=(\d{3})+(?!\d))/g;
+
   if (value.includes(decimalSeparator)) {
     const splitValue = value.split(decimalSeparator);
+
     return `${splitValue[0].replace(splitRegex, thousandSeparator)}${decimalSeparator}${splitValue[1]}`;
   } else {
     return value.replace(splitRegex, thousandSeparator);
@@ -570,7 +568,7 @@ export function getTStawkaPodatku(code: string, version: 1 | 2 | 3 | 'RR', P_PMa
   }
 
   if (TStawkaPodatkuVersioned[code]) {
-    return translateMap(TStawkaPodatkuVersioned[code], TStawkaPodatkuVersioned);
+    return translateMap(code, TStawkaPodatkuVersioned);
   }
   return code;
 }

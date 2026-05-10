@@ -7,7 +7,7 @@ import { initI18next } from '../../lib-public/i18n/i18n-init.js';
 import { AdditionalDataTypes } from '../../lib-public/types/common.types.js';
 import { Fa as Fa3, Naglowek } from '../../lib-public/types/fa3.types';
 import { Faktura } from '../../lib-public/types/fa3.types.js';
-import { TRodzajFaktury } from '../../shared/consts/const.js';
+import { TRodzajFaktury } from '../../shared/consts/FA.const.js';
 import FormatTyp, { Position } from '../../shared/enums/common.enum.js';
 import {
   createLabelText,

@@ -24,10 +24,11 @@ import { Fa, ZaliczkaCzesciowa } from '../../types/fa3.types';
 export function generateSzczegoly(faVat: Fa): Content[] {
   const faWiersze = getTable(faVat.FaWiersz);
   const zamowieniaWiersze = getTable(faVat.Zamowienie?.ZamowienieWiersz);
-  const LabelP_6 =
-    faVat.RodzajFaktury == TRodzajFaktury.ZAL || faVat.RodzajFaktury == TRodzajFaktury.KOR_ZAL
-      ? i18n.t('invoice.details.getMoneyDate')
-      : i18n.t('invoice.details.deliveryOrServiceDate');
+  const LabelP_6 = [TRodzajFaktury.ZAL, TRodzajFaktury.KOR_ZAL].includes(
+    getValue(faVat.RodzajFaktury) as string
+  )
+    ? i18n.t('invoice.details.getMoneyDate')
+    : i18n.t('invoice.details.deliveryOrServiceDate');
 
   const P_6Scope: Content[] = generateP_6Scope(faVat.OkresFa?.P_6_Od, faVat.OkresFa?.P_6_Do);
 
