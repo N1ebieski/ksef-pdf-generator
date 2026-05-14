@@ -40,6 +40,7 @@ export enum FormatTyp {
   Date = 'Date',
   Time = 'Time',
   FormOfPayment = 'FormOfPayment',
+  AccountNumber = 'AccountNumber',
   Percentage = 'Percentage',
   Number = 'Number',
 }

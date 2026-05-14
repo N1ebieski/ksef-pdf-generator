@@ -136,6 +136,9 @@ function formatValue(
       result.text = replaceDotWithCommaIfNeeded(value);
       result.alignment = Position.RIGHT;
       break;
+    case FormatTyp.AccountNumber:
+      result.text = formatBankAccountNumber(value as string);
+      break;
   }
 }
 
@@ -601,4 +604,26 @@ export function makeBreakable(
     return value.replace(new RegExp(`(.{${wordBreak}})`, 'g'), '$1\u200B');
   }
   return value;
+}
+
+function splitStringAfter(input: string, after: number): string[] {
+  return input.split('').reduce((acc: string[], char, index) => {
+    if (index % after === 0) {
+      acc.push('');
+    }
+    acc[acc.length - 1] += char;
+    return acc;
+  }, []);
+}
+
+export function formatBankAccountNumber(number: string): string {
+  if (number.length <= 12) return number;
+  const startsWithLetterOrSymbolRegex = /^[a-z!-\/:-@[-`{-~]/i;
+  if (number.charAt(0).match(startsWithLetterOrSymbolRegex)) {
+    number = splitStringAfter(number.replace(/ /g, ''), 4).join(' ');
+  } else {
+    const firstTwoCharacters = number.substring(0, 2);
+    number = `${firstTwoCharacters} ${splitStringAfter(number.substring(2).replace(/ /g, ''), 4).join(' ')}`;
+  }
+  return number;
 }
