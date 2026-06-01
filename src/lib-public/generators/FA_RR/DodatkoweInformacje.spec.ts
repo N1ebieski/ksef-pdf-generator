@@ -1,5 +1,6 @@
-import { beforeEach, describe, expect, it, test, vi } from 'vitest';
-import { generateDodatkoweInformacje } from './DodatkoweInformacje';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { createSection, createSubHeader, getContentTable, getTable } from '../../../shared/PDF-functions.js';
+import { generateDodatkoweInformacje } from './DodatkoweInformacje.js';
 
 vi.mock('../../../shared/PDF-functions', () => ({
   createHeader: vi.fn((text: string) => [{ text, style: 'header' }]),
@@ -10,14 +11,6 @@ vi.mock('../../../shared/PDF-functions', () => ({
   getTable: vi.fn((data: any) => data ?? []),
   getContentTable: vi.fn(() => ({ content: { text: 'mockTable' } })),
 }));
-
-import {
-  createSection,
-  createSubHeader,
-  formatText,
-  getContentTable,
-  getTable,
-} from '../../../shared/PDF-functions.js';
 
 describe(generateDodatkoweInformacje.name, () => {
   beforeEach(() => {
@@ -51,6 +44,7 @@ describe(generateDodatkoweInformacje.name, () => {
     };
 
     const result = generateDodatkoweInformacje(faVat as any);
+
     expect(createSubHeader).toHaveBeenCalledWith('Dokumenty Zapłaty', [0, 0, 0, 4]);
     expect(getContentTable).toHaveBeenCalled();
     expect(result.length).toBeGreaterThan(0);
@@ -59,6 +53,7 @@ describe(generateDodatkoweInformacje.name, () => {
 
   it('zwraca pustą tablicę gdy brak danych wejściowych', () => {
     const result = generateDodatkoweInformacje({} as any);
+
     expect(result).toEqual([]);
   });
 });

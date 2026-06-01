@@ -1,3 +1,4 @@
+import { createVersionLabel } from '@shared/generators/common/functions';
 import i18n from 'i18next';
 import { Content, ContentQr } from 'pdfmake/interfaces';
 import FormatTyp from '../../../shared/enums/common.enum.js';
@@ -49,7 +50,7 @@ export function generateStopka(
     createSection(
       [
         {
-          stack: createLabelText(i18n.t('invoice.footer.generatedIn'), naglowek?.SystemInfo),
+          stack: createLabelText(i18n.t('invoice.footer.generatedIn'), createVersionLabel()),
           margin: [0, 8, 0, 0],
         },
       ],

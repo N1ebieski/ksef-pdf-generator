@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import * as XMLParser from '../shared/XML-parser.js';
 import * as FA1Generator from './FA1-generator.js';
 import * as FA2Generator from './FA2-generator.js';
 import * as FA3Generator from './FA3-generator.js';
 import { generateInvoice } from './generate-invoice.js';
-import * as XMLParser from '../shared/XML-parser.js';
 import { AdditionalDataTypes } from './types/common.types';
 
 describe('generateInvoice', () => {
@@ -32,7 +32,7 @@ describe('generateInvoice', () => {
 
     vi.spyOn(XMLParser, 'parseXML').mockResolvedValue(fakeXml);
 
-    const getBlobMock = vi.fn().mockImplementation((cb) => cb(mockBlob));
+    const getBlobMock = vi.fn(() => Promise.resolve(mockBlob));
 
     vi.spyOn(FA1Generator, 'generateFA1').mockReturnValue({ getBlob: getBlobMock } as any);
 
@@ -59,7 +59,7 @@ describe('generateInvoice', () => {
 
     vi.spyOn(XMLParser, 'parseXML').mockResolvedValue(fakeXml);
 
-    const getBlobMock = vi.fn().mockImplementation((cb) => cb(mockBlob));
+    const getBlobMock = vi.fn(() => Promise.resolve(mockBlob));
 
     vi.spyOn(FA2Generator, 'generateFA2').mockReturnValue({ getBlob: getBlobMock } as any);
 
@@ -86,7 +86,7 @@ describe('generateInvoice', () => {
 
     vi.spyOn(XMLParser, 'parseXML').mockResolvedValue(fakeXml);
 
-    const getBlobMock = vi.fn().mockImplementation((cb) => cb(mockBlob));
+    const getBlobMock = vi.fn(() => Promise.resolve(mockBlob));
 
     vi.spyOn(FA3Generator, 'generateFA3').mockReturnValue({ getBlob: getBlobMock } as any);
 

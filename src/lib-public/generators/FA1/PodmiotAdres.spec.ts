@@ -1,7 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { generatePodmiotAdres } from './PodmiotAdres.js';
-import { Adres } from '../../types/fa1.types';
 import { Margins } from 'pdfmake/interfaces';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { Adres } from '../../types/fa1.types';
+import { generatePodmiotAdres } from './PodmiotAdres.js';
 
 vi.mock('../../../shared/PDF-functions', () => ({
   createHeader: vi.fn((title, margin) => [{ text: `HEADER:${title}`, margin }]),

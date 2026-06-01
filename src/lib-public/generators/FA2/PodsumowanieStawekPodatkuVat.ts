@@ -96,7 +96,7 @@ export function generatePodsumowanieStawekPodatkuVat(faktura: Faktura): Content[
     tableBody = summary.map((item: TaxSummaryTypes) => {
       const data = [];
 
-      data.push(item.no);
+      data.push(item.no ?? '');
       if (AnyP13P14_5Diff0) {
         if (item.taxRateString) {
           data.push(item.taxRateString);
@@ -114,7 +114,7 @@ export function generatePodsumowanieStawekPodatkuVat(faktura: Faktura): Content[
       if (AnyP13P14_5Diff0) {
         data.push(formatText(item.tax, FormatTyp.Currency));
       } else if (hasValue(faktura.Fa?.P_14_5)) {
-        data.push(getValue(faktura.Fa?.P_14_5));
+        data.push(getValue(faktura.Fa?.P_14_5) ?? '');
       }
       if (AnyP13) {
         data.push(formatText(item.gross, FormatTyp.Currency));

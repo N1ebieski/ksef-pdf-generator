@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import pdfMake, { TCreatedPdf } from 'pdfmake/build/pdfmake.js';
 import pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import { Content, TDocumentDefinitions } from 'pdfmake/interfaces';
@@ -23,12 +24,13 @@ import { generateStopka } from './generators/common/Stopka.js';
 import { AdditionalDataTypes } from './types/common.types';
 import { Faktura } from './types/fa3.types';
 
-pdfMake.vfs = pdfFonts.vfs;
+pdfMake.addVirtualFileSystem(pdfFonts);
 
 export function generateFA3(invoice: Faktura, additionalData: AdditionalDataTypes): TCreatedPdf {
   const isKOR_RABAT: boolean =
     invoice.Fa?.RodzajFaktury?._text == TRodzajFaktury.KOR && hasValue(invoice.Fa?.OkresFaKorygowanej);
   const rabatOrRowsInvoice: Content = isKOR_RABAT ? generateRabat(invoice.Fa!) : generateWiersze(invoice.Fa!);
+
   const docDefinition: TDocumentDefinitions = {
     ...generateWatermark(additionalData?.watermark),
     content: [
@@ -55,7 +57,7 @@ export function generateFA3(invoice: Faktura, additionalData: AdditionalDataType
     ],
     footer: (currentPage, pageCount) => {
       return {
-        text: currentPage.toString() + ' z ' + pageCount,
+        text: `${currentPage.toString()} ${i18n.t('invoice.footer.pagesTotal')} ${pageCount}`,
         alignment: Position.RIGHT,
         margin: [0, 0, 40, 0],
       };

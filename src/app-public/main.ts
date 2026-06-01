@@ -1,5 +1,4 @@
 import { generateInvoice, generatePDFUPO } from '../lib-public';
-
 import { AdditionalDataTypes } from '../lib-public/types/common.types';
 
 const inputInvoice: HTMLInputElement = document.getElementById('xmlInput') as HTMLInputElement;

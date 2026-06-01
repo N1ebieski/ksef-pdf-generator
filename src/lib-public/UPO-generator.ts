@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import pdfMake from 'pdfmake/build/pdfmake.js';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { generateStyle } from '../shared/PDF-functions.js';
@@ -5,13 +6,14 @@ import { parseXML } from '../shared/XML-parser.js';
 import { Position } from '../shared/enums/common.enum.js';
 import { generateDokumentUPO } from './generators/UPO4_3/Dokumenty.js';
 import { generateNaglowekUPO } from './generators/UPO4_3/Naglowek.js';
-import { initI18next } from './i18n/i18n-init.js';
+import { i18nReady } from './i18n/i18n-init.js';
 import { Upo } from './types/upo-v4_2.types';
 
 export async function generatePDFUPO(file: File): Promise<Blob> {
   const upo = (await parseXML(file)) as Upo;
 
-  await initI18next();
+  await i18nReady;
+
   const docDefinition: TDocumentDefinitions = {
     content: [generateNaglowekUPO(upo.Potwierdzenie!), generateDokumentUPO(upo.Potwierdzenie!)],
     ...generateStyle(),
@@ -19,20 +21,12 @@ export async function generatePDFUPO(file: File): Promise<Blob> {
     pageOrientation: 'landscape',
     footer: function (currentPage: number, pageCount: number) {
       return {
-        text: currentPage.toString() + ' z ' + pageCount,
+        text: `${currentPage.toString()} ${i18n.t('invoice.footer.pagesTotal')} ${pageCount}`,
         alignment: Position.RIGHT,
         margin: [0, 0, 20, 0],
       };
     },
   };
 
-  return new Promise((resolve, reject): void => {
-    pdfMake.createPdf(docDefinition).getBlob((blob: Blob): void => {
-      if (blob) {
-        resolve(blob);
-      } else {
-        reject('Error');
-      }
-    });
-  });
+  return pdfMake.createPdf(docDefinition).getBlob();
 }

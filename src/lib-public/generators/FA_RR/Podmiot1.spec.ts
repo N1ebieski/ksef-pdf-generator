@@ -1,6 +1,6 @@
 import type { Content } from 'pdfmake/interfaces';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { createLabelText, formatText } from '../../../shared/PDF-functions.js';
+import { formatText } from '../../../shared/PDF-functions.js';
 import type { Podmiot1Class } from '../../types/FaRR.types';
 import { generateAdres } from './Adres.js';
 import { generatePodmiot1 } from './Podmiot1.js';

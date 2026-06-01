@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import pdfMake, { TCreatedPdf } from 'pdfmake/build/pdfmake.js';
 import pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
@@ -16,7 +17,7 @@ import { generateWiersze } from './generators/FA_RR/Wiersze.js';
 import { AdditionalDataTypes } from './types/common.types';
 import { FaRR } from './types/FaRR.types';
 
-pdfMake.vfs = pdfFonts.vfs;
+pdfMake.addVirtualFileSystem(pdfFonts);
 
 export function generateFARR(invoice: FaRR, additionalData: AdditionalDataTypes): TCreatedPdf {
   const docDefinition: TDocumentDefinitions = {
@@ -34,7 +35,7 @@ export function generateFARR(invoice: FaRR, additionalData: AdditionalDataTypes)
     ],
     footer: (currentPage, pageCount) => {
       return {
-        text: currentPage.toString() + ' z ' + pageCount,
+        text: `${currentPage.toString()} ${i18n.t('invoice.footer.pagesTotal')} ${pageCount}`,
         alignment: Position.RIGHT,
         margin: [0, 0, 40, 0],
       };

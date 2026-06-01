@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import pdfMake, { TCreatedPdf } from 'pdfmake/build/pdfmake.js';
 import pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import { Content, TDocumentDefinitions } from 'pdfmake/interfaces';
@@ -23,7 +24,7 @@ import { generateStopka } from './generators/common/Stopka.js';
 import { AdditionalDataTypes } from './types/common.types';
 import { Faktura } from './types/fa2.types';
 
-pdfMake.vfs = pdfFonts.vfs;
+pdfMake.addVirtualFileSystem(pdfFonts);
 
 export function generateFA2(invoice: Faktura, additionalData: AdditionalDataTypes): TCreatedPdf {
   const isKOR_RABAT: boolean =
@@ -55,7 +56,7 @@ export function generateFA2(invoice: Faktura, additionalData: AdditionalDataType
     ],
     footer: (currentPage, pageCount) => {
       return {
-        text: currentPage.toString() + ' z ' + pageCount,
+        text: `${currentPage.toString()} ${i18n.t('invoice.footer.pagesTotal')} ${pageCount}`,
         alignment: Position.RIGHT,
         margin: [0, 0, 40, 0],
       };

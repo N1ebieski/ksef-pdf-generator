@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import { Content, ContentText } from 'pdfmake/interfaces';
-import { formatText, generateLine, getValue } from '../../../shared/PDF-functions.js';
+import { formatText, getValue } from '../../../shared/PDF-functions.js';
 import { TRodzajFaktury } from '../../../shared/consts/FA.const.js';
 import FormatTyp, { Position } from '../../../shared/enums/common.enum.js';
 import { FakturaRR as Fa } from '../../types/FaRR.types';

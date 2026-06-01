@@ -1,4 +1,11 @@
 import { beforeEach, describe, expect, it, test, vi } from 'vitest';
+import {
+  createSection,
+  createSubHeader,
+  formatText,
+  getContentTable,
+  getTable,
+} from '../../../shared/PDF-functions.js';
 import { generateDodatkoweInformacje } from './DodatkoweInformacje.js';
 
 vi.mock('../../../shared/PDF-functions', () => ({
@@ -10,14 +17,6 @@ vi.mock('../../../shared/PDF-functions', () => ({
   getTable: vi.fn((data: any) => data ?? []),
   getContentTable: vi.fn(() => ({ content: { text: 'mockTable' } })),
 }));
-
-import {
-  createSection,
-  createSubHeader,
-  formatText,
-  getContentTable,
-  getTable,
-} from '../../../shared/PDF-functions.js';
 
 describe(generateDodatkoweInformacje.name, () => {
   beforeEach(() => {

@@ -1,8 +1,7 @@
 import type { Content } from 'pdfmake/interfaces';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { Adres, Podmiot1Class, Podmiot1KClass } from '../../types/FaRR.types';
+import { Podmiot1Class, Podmiot1KClass } from '../../types/FaRR.types';
 import { generateAdres } from './Adres.js';
-import { generatePodmiot1Podmiot1K } from './Podmiot1Podmiot1K.js';
 import { generatePodmiot2 } from './Podmiot2.js';
 import { generatePodmiot2Podmiot2K } from './Podmiot2Podmiot2k.js';
 
@@ -44,6 +43,7 @@ describe(generatePodmiot2Podmiot2K.name, () => {
     };
     const podmiot2K: Podmiot1KClass = {};
     const result: any = generatePodmiot2Podmiot2K(podmiot2, podmiot2K);
+
     expect(result[0]).toEqual({ text: 'Nabywca', style: 'header' });
 
     expect(result[1]).toHaveProperty('columns');

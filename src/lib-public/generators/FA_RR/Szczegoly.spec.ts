@@ -1,6 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import * as PDFFunctions from '../../../shared/PDF-functions.js';
-import { TRodzajFaktury } from '../../../shared/consts/FA.const.js';
 import FormatTyp from '../../../shared/enums/common.enum.js';
 import { FakturaRR } from '../../types/FaRR.types';
 import { generateSzczegoly } from './Szczegoly';
@@ -56,6 +55,7 @@ describe(generateSzczegoly.name, () => {
 
   it('should call createSection and return result', () => {
     const mockSection = 'section';
+
     vi.mocked(PDFFunctions.createSection).mockReturnValue(mockSection as any);
 
     const result = generateSzczegoly(mockFaVat);
@@ -103,9 +103,11 @@ describe(generateSzczegoly.name, () => {
       generateSzczegoly(mockFaVat);
 
       const calls = vi.mocked(PDFFunctions.generateTwoColumns).mock.calls;
+
       expect(calls.length).toBeGreaterThanOrEqual(1);
 
       const firstCall = calls[0];
+
       expect(Array.isArray(firstCall[0])).toBe(true);
       expect(Array.isArray(firstCall[1])).toBe(true);
     });
