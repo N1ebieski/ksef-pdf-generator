@@ -4,7 +4,7 @@ import { generateFA1 } from './FA1-generator.js';
 import { generateFA2 } from './FA2-generator.js';
 import { generateFA3 } from './FA3-generator.js';
 import { generateFARR } from './FARR-generator.js';
-import { i18nReady } from './i18n/i18n-init';
+import { i18nReady } from './i18n/i18n-init.js';
 import { AdditionalDataTypes } from './types/common.types';
 import { Faktura as Faktura1 } from './types/fa1.types';
 import { Faktura as Faktura2 } from './types/fa2.types';

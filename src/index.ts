@@ -7,7 +7,7 @@ export { generateFA3 } from './lib-public/FA3-generator';
 export { generateFARR } from './lib-public/FARR-generator.js';
 export { generateDokumentUPO } from './lib-public/generators/UPO4_3/Dokumenty';
 export { generateNaglowekUPO } from './lib-public/generators/UPO4_3/Naglowek';
-export { i18nReady } from './lib-public/i18n/i18n-init';
+export { i18nReady } from './lib-public/i18n/i18n-init.js';
 export * from './shared/enums/common.enum.js';
 export { generateStyle } from './shared/PDF-functions.js';
 export { i18next };

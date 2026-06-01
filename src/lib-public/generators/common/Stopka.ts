@@ -1,7 +1,7 @@
-import { createVersionLabel } from '@shared/generators/common/functions';
 import i18n from 'i18next';
 import { Content, ContentQr } from 'pdfmake/interfaces';
 import FormatTyp from '../../../shared/enums/common.enum.js';
+import { createVersionLabel } from '../../../shared/generators/common/functions.js';
 import {
   createHeader,
   createLabelText,

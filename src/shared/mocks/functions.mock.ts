@@ -1,5 +1,5 @@
 import { beforeAll, vi } from 'vitest';
-import { i18nReady } from '../../lib-public/i18n/i18n-init';
+import { i18nReady } from '../../lib-public/i18n/i18n-init.js';
 
 vi.mock('../generators/common/functions.ts', async (importOriginal) => {
   const original = await importOriginal<any>();

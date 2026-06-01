@@ -3,7 +3,7 @@ import pdfMake, { TCreatedPdf } from 'pdfmake/build/pdfmake.js';
 import { Content, ContentText, TDocumentDefinitions } from 'pdfmake/interfaces.js';
 import { generateQR2CodeData, generateQRCodeData } from '../../lib-public/generators/common/Stopka.js';
 import { generatePodmioty } from '../../lib-public/generators/FA3/Podmioty.js';
-import { initI18next } from '../../lib-public/i18n/i18n-init.js';
+import { i18nReady } from '../../lib-public/i18n/i18n-init.js';
 import { AdditionalDataTypes } from '../../lib-public/types/common.types.js';
 import { Fa as Fa3, Naglowek } from '../../lib-public/types/fa3.types';
 import { Faktura } from '../../lib-public/types/fa3.types.js';
@@ -23,7 +23,7 @@ import type { IPdfGenerator } from '../interfaces/IPdfGenerator.js';
 
 export class ConfirmationPdfGenerator implements IPdfGenerator {
   public async generate(file: File, additionalData?: any): Promise<Blob> {
-    await initI18next();
+    await i18nReady;
 
     const xml: unknown = await parseXML(file);
 
@@ -32,9 +32,7 @@ export class ConfirmationPdfGenerator implements IPdfGenerator {
     return new Promise((resolve): void => {
       pdf = this.generateConfirmation((xml as any).Faktura as Faktura, additionalData);
 
-      pdf.getBlob((blob: Blob): void => {
-        resolve(blob);
-      });
+      resolve(pdf.getBlob());
     });
   }
 
