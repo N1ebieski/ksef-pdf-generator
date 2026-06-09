@@ -155,7 +155,9 @@ export function normalizeCurrencySeparator(value: string | number | undefined): 
 
   const numberWithComma = dotToComma(typeof value === 'string' ? value : value.toString());
 
-  if (numberWithComma.includes(',')) {
+  if (numberWithComma === '0') {
+    return numberWithComma;
+  } else if (numberWithComma.includes(',')) {
     const parts = numberWithComma.split(',');
 
     return addThousandSeparator(parts[1].length > 1 ? numberWithComma : numberWithComma + '0');
@@ -182,9 +184,10 @@ function dotToComma(value: string): string {
   return value.replace('.', ',');
 }
 
-export function hasValue(value: FP | string | number | undefined): boolean {
+export function hasValue(value: FP | string | number | undefined, zeroValidator: boolean = true): boolean {
   return (
-    !!((typeof value !== 'object' && value) || (typeof value === 'object' && value._text)) || value === 0
+    !!((typeof value !== 'object' && value) || (typeof value === 'object' && value._text)) ||
+    (zeroValidator && value === 0)
   );
 }
 
@@ -626,12 +629,17 @@ function splitStringAfter(input: string, after: number): string[] {
 
 export function formatBankAccountNumber(number: string): string {
   if (number.length <= 12) return number;
+
+  if (/\s/.test(number.trim())) return number.trim();
+
   const startsWithLetterOrSymbolRegex = /^[a-z!-\/:-@[-`{-~]/i;
+
   if (number.charAt(0).match(startsWithLetterOrSymbolRegex)) {
     number = splitStringAfter(number.replace(/ /g, ''), 4).join(' ');
   } else {
     const firstTwoCharacters = number.substring(0, 2);
     number = `${firstTwoCharacters} ${splitStringAfter(number.substring(2).replace(/ /g, ''), 4).join(' ')}`;
   }
+
   return number;
 }
