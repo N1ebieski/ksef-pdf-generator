@@ -13,7 +13,7 @@ import { DodatkowyOpi, DokumentZaplaty, FakturaRR as Fa } from '../../types/FaRR
 
 export function generateDodatkoweInformacje(fa: Fa): Content[] {
   const table: Content[] = [
-    ...createHeader('invoice.additionalInformation.additionalInformationLabel'),
+    ...createHeader(i18n.t('invoice.additionalInformation.additionalInformationLabel')),
     ...generateDokumentyZaplaty(fa.DokumentZaplaty),
     ...generateDodatkowyOpis(fa.DodatkowyOpis),
   ];
