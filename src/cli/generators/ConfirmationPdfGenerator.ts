@@ -9,6 +9,7 @@ import { Fa as Fa3, Naglowek } from '../../lib-public/types/fa3.types';
 import { Faktura } from '../../lib-public/types/fa3.types.js';
 import { TRodzajFaktury } from '../../shared/consts/FA.const.js';
 import FormatTyp, { Position } from '../../shared/enums/common.enum.js';
+import { createVersionLabel } from '../../shared/generators/common/functions.js';
 import {
   createLabelText,
   createLabelTextArray,
@@ -61,7 +62,10 @@ export class ConfirmationPdfGenerator implements IPdfGenerator {
       createSection(
         [
           {
-            stack: createLabelText(i18n.t('invoice.footer.generatedIn'), naglowek?.SystemInfo),
+            stack: createLabelText(
+              i18n.t('invoice.footer.generatedIn'),
+              createVersionLabel(naglowek?.SystemInfo?._text)
+            ),
             margin: [0, 8, 0, 0],
           },
         ],
