@@ -132,7 +132,7 @@ export function generateZamowienie(
   const ceny = i18n.t('invoice.order.issuedInCurrency', { currency: KodWaluty });
   let opis: Content = '';
 
-  if (Number(p_15) > 0 && rodzajFaktury == TRodzajFaktury.ZAL) {
+  if (rodzajFaktury == TRodzajFaktury.ZAL) {
     opis = {
       stack: createLabelTextArray([
         { value: i18n.t('invoice.order.advancePaymentAmount'), formatTyp: FormatTyp.LabelGreater },

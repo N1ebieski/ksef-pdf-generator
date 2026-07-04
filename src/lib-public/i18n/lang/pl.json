@@ -671,6 +671,7 @@
       "qualityDesc": "Opis klasy lub jakości",
       "quantity": "Ilość",
       "remainingAmount": "Kwota pozostała do zapłaty: ",
+      "remainingAmountCorrection": "Korekta kwoty pozostałej do zapłaty: ",
       "stateBefore": "Stan przed",
       "taxRate": "Stawka podatku",
       "totalAmountDue": "Kwota należności ogółem: ",

@@ -212,12 +212,12 @@ describe(generateZamowienie.name, () => {
         ]);
       });
 
-      it('should not add description for ZAL invoice when p_15 = 0', () => {
+      it('should add description for ZAL invoice when p_15 = 0', () => {
         vi.mocked(PDFFunctions.createLabelTextArray).mockClear();
 
         generateZamowienie(mockOrderData, ZamowienieKorekta.BeforeCorrection, '0', TRodzajFaktury.ZAL, 'PLN');
 
-        expect(PDFFunctions.createLabelTextArray).not.toHaveBeenCalled();
+        expect(PDFFunctions.createLabelTextArray).toHaveBeenCalled();
       });
 
       it('should add description for advance correction (KOR_ZAL) when not BeforeCorrection', () => {

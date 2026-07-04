@@ -671,6 +671,7 @@
       "qualityDesc": "ExampleText",
       "quantity": "ExampleText",
       "remainingAmount": "ExampleText",
+      "remainingAmountCorrection": "ExampleText",
       "stateBefore": "ExampleText",
       "taxRate": "ExampleText",
       "totalAmountDue": "ExampleText",

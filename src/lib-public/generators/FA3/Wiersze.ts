@@ -131,10 +131,23 @@ export function generateWiersze(faVat: Fa): Content {
       alignment: Position.RIGHT,
       margin: [0, 8, 0, 0],
     };
-  } else if (rodzajFaktury == TRodzajFaktury.KOR || rodzajFaktury == TRodzajFaktury.KOR_ROZ) {
+  } else if (rodzajFaktury == TRodzajFaktury.KOR) {
     opis = {
       stack: createLabelTextArray([
         { value: i18n.t('invoice.rows.totalAmountDueCorrection'), formatTyp: FormatTyp.LabelGreater },
+        {
+          value: p_15,
+          formatTyp: [FormatTyp.CurrencyGreaterWithSeparator, FormatTyp.HeaderContent, FormatTyp.Value],
+          currency: getValue(faVat.KodWaluty)?.toString() ?? '',
+        },
+      ]),
+      alignment: Position.RIGHT,
+      margin: [0, 8, 0, 0],
+    };
+  } else if (rodzajFaktury == TRodzajFaktury.KOR_ROZ) {
+    opis = {
+      stack: createLabelTextArray([
+        { value: i18n.t('invoice.rows.remainingAmountCorrection'), formatTyp: FormatTyp.LabelGreater },
         {
           value: p_15,
           formatTyp: [FormatTyp.CurrencyGreaterWithSeparator, FormatTyp.HeaderContent, FormatTyp.Value],
