@@ -51,9 +51,11 @@ export class CliApplication {
       .argument('<input>', 'Ścieżka do pliku XML faktury (FA(1), FA(2) lub FA(3))')
       .argument('<output>', 'Ścieżka do wyjściowego pliku PDF')
       .option('--nr-ksef <numer>', 'Numer KSeF faktury')
+      .option('--ac-date <data>', 'Data nadania numeru KSeF')
       .option('--qr-code <url>', 'URL do kodu QR faktury')
       .option('--qr2-code <url>', 'URL do kodu QR certyfikatu')
       .option('--qr-code2 <url>', 'URL do kodu QR certyfikatu DEPRECATED - użyj --qr2-code')
+      .option('--watermark <text>', 'Tekst znaku wodnego na PDF')
       .action(async (input: string, output: string, options: any) => {
         try {
           const additionalData: any = {};
@@ -69,6 +71,12 @@ export class CliApplication {
           }
           if (options.qr2Code) {
             additionalData.qr2Code = options.qr2Code;
+          }
+          if (options.acDate) {
+            additionalData.acDate = options.acDate;
+          }
+          if (options.watermark) {
+            additionalData.watermark = options.watermark;
           }
 
           if (!this.invoiceGenerator) {
@@ -128,6 +136,7 @@ export class CliApplication {
       .option('--qr-code <url>', 'URL do kodu QR faktury')
       .option('--qr2-code <url>', 'URL do kodu QR certyfikatu')
       .option('--qr-code2 <url>', 'URL do kodu QR certyfikatu DEPRECATED - użyj --qr2-code')
+      .option('--watermark <text>', 'Tekst znaku wodnego na PDF')
       .action(async (input: string, output: string, options: any) => {
         try {
           const additionalData: any = {};
@@ -140,6 +149,9 @@ export class CliApplication {
           }
           if (options.qr2Code) {
             additionalData.qr2Code = options.qr2Code;
+          }
+          if (options.watermark) {
+            additionalData.watermark = options.watermark;
           }
 
           if (!this.confirmationGenerator) {

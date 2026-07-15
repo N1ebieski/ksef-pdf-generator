@@ -1,8 +1,8 @@
-import FormatTyp from '@shared/enums/common.enum';
 import i18n from 'i18next';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import * as PDFFunctions from '../../../shared/PDF-functions.js';
 import { TypKorekty } from '../../../shared/consts/FA.const.js';
+import FormatTyp from '../../../shared/enums/common.enum.js';
 import { generateDaneFaKorygowanej } from './DaneFaKorygowanej.js';
 
 describe('generateDaneFaKorygowanej', () => {

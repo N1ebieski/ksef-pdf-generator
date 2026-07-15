@@ -8,6 +8,7 @@ import { AdditionalDataTypes } from '../../lib-public/types/common.types.js';
 import { Fa as Fa3, Naglowek } from '../../lib-public/types/fa3.types';
 import { Faktura } from '../../lib-public/types/fa3.types.js';
 import { TRodzajFaktury } from '../../shared/consts/FA.const.js';
+import { generateWatermark } from '../../shared/consts/watermark.js';
 import FormatTyp, { Position } from '../../shared/enums/common.enum.js';
 import { createVersionLabel } from '../../shared/generators/common/functions.js';
 import {
@@ -39,6 +40,7 @@ export class ConfirmationPdfGenerator implements IPdfGenerator {
 
   private generateConfirmation(invoice: Faktura, additionalData: AdditionalDataTypes): TCreatedPdf {
     const docDefinition: TDocumentDefinitions = {
+      ...generateWatermark(additionalData?.watermark),
       content: [
         ...this.generateNaglowek(invoice.Fa),
         ...generatePodmioty(invoice),
