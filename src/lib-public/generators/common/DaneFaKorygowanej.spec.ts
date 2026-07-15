@@ -1,3 +1,4 @@
+import FormatTyp from '@shared/enums/common.enum';
 import i18n from 'i18next';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import * as PDFFunctions from '../../../shared/PDF-functions.js';
@@ -54,7 +55,8 @@ describe('generateDaneFaKorygowanej', () => {
     );
     expect(PDFFunctions.createLabelText).toHaveBeenCalledWith(
       'Data wystawienia faktury, której dotyczy faktura korygująca: ',
-      '2025-01-01'
+      '2025-01-01',
+      FormatTyp.Date
     );
     expect(PDFFunctions.createLabelText).toHaveBeenCalledWith('Numer faktury korygowanej: ', 'NR321');
     expect(PDFFunctions.createLabelText).toHaveBeenCalledWith('Numer KSeF faktury korygowanej: ', 'KSEF456');
