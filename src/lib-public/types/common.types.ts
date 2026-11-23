@@ -29,6 +29,7 @@ export interface AdditionalDataTypes {
   qr2Code?: string;
   isMobile?: boolean;
   watermark?: string;
+  creator?: string;
 }
 
 export type TranslationKey<T> = {

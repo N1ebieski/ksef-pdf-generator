@@ -2,9 +2,11 @@ import i18n from 'i18next';
 import pdfMake, { TCreatedPdf } from 'pdfmake/build/pdfmake.js';
 import pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import { Content, TDocumentDefinitions } from 'pdfmake/interfaces';
+import { generateWatermark } from '../shared/consts/watermark.js';
 import { Position } from '../shared/enums/common.enum.js';
 import { SectionType } from '../shared/enums/pef-invoice.enum.js';
 import { generateStyle, getTable } from '../shared/PDF-functions.js';
+import { generateInfo } from '../shared/utils/generate-info.js';
 import { generateAccountingParty } from './generators/PEF/AccountingParty.js';
 import { generateAllowanceCharge } from './generators/PEF/AllowanceCharge.js';
 import { generateDelivery } from './generators/PEF/Delivery.js';
@@ -43,6 +45,8 @@ export function generateBasicPEF(invoice: PEFBasicInvoice, additionalData: Addit
   );
 
   const docDefinition: TDocumentDefinitions = {
+    info: generateInfo(additionalData?.creator),
+    ...generateWatermark(additionalData?.watermark),
     content: content,
     footer: (currentPage, pageCount) => {
       return {

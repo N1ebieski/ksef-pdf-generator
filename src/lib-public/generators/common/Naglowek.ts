@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import { Content, ContentText } from 'pdfmake/interfaces';
-import { formatText, generateLine, getValue } from '../../../shared/PDF-functions.js';
+import { formatText, generateLine, getStrippedValue, getValue } from '../../../shared/PDF-functions.js';
 import { TRodzajFaktury } from '../../../shared/consts/FA.const.js';
 import FormatTyp, { Position } from '../../../shared/enums/common.enum.js';
 import { AdditionalDataTypes } from '../../types/common.types';
@@ -56,7 +56,7 @@ export function generateNaglowek(
       alignment: Position.RIGHT,
     },
     {
-      ...(formatText(getValue(fa?.P_2), FormatTyp.HeaderPosition) as ContentText),
+      ...(formatText(getStrippedValue(fa?.P_2), FormatTyp.HeaderPosition) as ContentText),
       alignment: Position.RIGHT,
     },
     {

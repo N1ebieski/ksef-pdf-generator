@@ -6,6 +6,7 @@ import { generateStyle, getValue, hasValue } from '../shared/PDF-functions.js';
 import { TRodzajFaktury } from '../shared/consts/FA.const.js';
 import { generateWatermark } from '../shared/consts/watermark.js';
 import { Position } from '../shared/enums/common.enum.js';
+import { generateInfo } from '../shared/utils/generate-info.js';
 import { ZamowienieKorekta } from './enums/invoice.enums.js';
 import { generateAdnotacje } from './generators/FA2/Adnotacje.js';
 import { generateDodatkoweInformacje } from './generators/FA2/DodatkoweInformacje.js';
@@ -31,6 +32,7 @@ export function generateFA2(invoice: Faktura, additionalData: AdditionalDataType
     invoice.Fa?.RodzajFaktury?._text == TRodzajFaktury.KOR && hasValue(invoice.Fa?.OkresFaKorygowanej);
   const rabatOrRowsInvoice: Content = isKOR_RABAT ? generateRabat(invoice.Fa!) : generateWiersze(invoice.Fa!);
   const docDefinition: TDocumentDefinitions = {
+    info: generateInfo(additionalData?.creator),
     ...generateWatermark(additionalData?.watermark),
     content: [
       ...generateNaglowek(invoice.Fa, additionalData),

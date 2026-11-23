@@ -1,5 +1,27 @@
 # Changelog
 
+## [1.1.48]
+
+### zaplanowana data wydania [6.11.2026]
+
+- Dodano pola 'Producer' i 'Creator' na potrzeby metadanych wizualizacji PDF.
+- Dodoano wodny znak dla faktur PEF oraz UPO.
+
+---
+
+## [1.1.46]
+
+### zaplanowana data wydania [14.10.2026]
+
+- Dodano formatowanie wartosci dla numeru faktury w nagłówku.
+- Zrefaktoryzowano fakaturę korygującą PEF.
+- Ujednolicono separator dzisiętny pola Rabat w korekcie zbiorczej.
+- Dodoane spację w nagłówkach Faktur RR i fakur PEF.
+- Ujednolicono separator dziesiętny pola Kwota podatku w podsumowanie stawek podatku w procedurze OSS.
+- Poprawiono zaokrąglanie kwot.
+
+---
+
 ## [1.1.40]
 
 ### zaplanowana data wydania [18.09.2026]
@@ -19,7 +41,7 @@
 - Wyłączono dubug mode.
 - Dodano generyczny typ dla weryfikacji spójnośći kluczy tłumaczeń.
 - Dodano kod waluty do warunków transakcji.
-- Dodano obsługę faktur PEF (w fazie testów, niedostępne na ten moment produkcyjnie w aplikacji podatnika).
+- Dodano obsługę faktur PEF (w fazie testów, niedostępne na ten moment produkcyjnie w aplikacji podatnika)
 
 ---
 
@@ -53,7 +75,7 @@
 
 - Dodano datę nadania numeru KSEF.
 - Ujednolicono separator dziesiętny dla kwoty podatku akcyzowego.
-- usunięto nadmiarową pustą stronę na końcu wizualizacji faktury.
+- Usunięto nadmiarową pustą stronę na końcu wizualizacji faktury.
 - Ujednolicono separator dziesiętny w tabeli zamówienie w kolumnie ilość.
 - Dodano kod waluty w podsumowaniu zamówienia, kwoty zapłaty (zaliczki).
 

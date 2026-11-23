@@ -5,6 +5,7 @@ import { TDocumentDefinitions } from 'pdfmake/interfaces';
 import { generateWatermark } from '../shared/consts/watermark.js';
 import { Position } from '../shared/enums/common.enum.js';
 import { generateStyle } from '../shared/PDF-functions.js';
+import { generateInfo } from '../shared/utils/generate-info.js';
 import { generateDaneFaKorygowanej } from './generators/common/DaneFaKorygowanej.js';
 import { generateRozliczenie } from './generators/common/Rozliczenie.js';
 import { generateStopka } from './generators/common/Stopka.js';
@@ -21,6 +22,7 @@ pdfMake.addVirtualFileSystem(pdfFonts);
 
 export function generateFARR(invoice: FaRR, additionalData: AdditionalDataTypes): TCreatedPdf {
   const docDefinition: TDocumentDefinitions = {
+    info: generateInfo(additionalData?.creator),
     ...generateWatermark(additionalData?.watermark),
     content: [
       ...generateNaglowek(invoice.FakturaRR, additionalData),

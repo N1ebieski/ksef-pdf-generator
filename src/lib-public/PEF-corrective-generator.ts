@@ -3,8 +3,10 @@ import pdfMake, { TCreatedPdf } from 'pdfmake/build/pdfmake.js';
 import pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import { Content, TDocumentDefinitions } from 'pdfmake/interfaces';
 import { generateStyle, getTable } from '../shared/PDF-functions.js';
+import { generateWatermark } from '../shared/consts/watermark.js';
 import { Position } from '../shared/enums/common.enum.js';
 import { SectionType } from '../shared/enums/pef-invoice.enum.js';
+import { generateInfo } from '../shared/utils/generate-info.js';
 import { generateAccountReckoning } from './generators/PEF/AccountReckoning.js';
 import { generateAccountingParty } from './generators/PEF/AccountingParty.js';
 import { generateAllowanceCharge } from './generators/PEF/AllowanceCharge.js';
@@ -72,6 +74,8 @@ export function generateCorrectivePEF(
     generateFooter(additionalData, invoice!.CustomizationID!) // Elementy struktury
   );
   const docDefinition: TDocumentDefinitions = {
+    info: generateInfo(additionalData?.creator),
+    ...generateWatermark(additionalData?.watermark),
     content: content,
     footer: (currentPage, pageCount) => {
       return {
